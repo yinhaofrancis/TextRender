@@ -8,7 +8,7 @@
 import QuartzCore
 import UIKit
 
-public struct TRVerterImage{
+public struct TRPDFImage{
     fileprivate var page:CGPDFPage
     public var box:CGRect{
         return page.getBoxRect(.mediaBox)
@@ -24,7 +24,7 @@ public struct TRVerterImage{
         return self.page.getBoxRect(.mediaBox)
     }
 }
-public struct TRVerterImageSet{
+public struct TRPDFImageSet{
     
     private var document:CGPDFDocument
     
@@ -34,17 +34,14 @@ public struct TRVerterImageSet{
         }
         self.document = current
     }
-    public subscript(_ index:Int)->TRVerterImage?{
+    public subscript(_ index:Int)->TRPDFImage?{
         guard let page = self.document.page(at: index) else {
             return nil
         }
-        return TRVerterImage(page: page)
+        return TRPDFImage(page: page)
     }
     
     public var count:Int{
         self.document.numberOfPages
     }
 }
-//
-
-

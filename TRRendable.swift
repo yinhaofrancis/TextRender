@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreGraphics
+import UIKit
 
 
 public protocol TRRenderFrame{
@@ -30,7 +31,10 @@ public protocol TRRenderable:TRRenderFrame{
 }
 extension TRRenderable{
     public func draw(ctx:CGContext){
-        content.render(frame: self.frame, ctx: ctx)
+        self.draw(frame: self.frame, ctx: ctx)
+    }
+    public func draw(frame:CGRect, ctx:CGContext){
+        content.render(frame: frame, ctx: ctx)
     }
 }
 
@@ -39,44 +43,64 @@ public struct TRView<T:TRContent>:TRRenderable{
     
     public var frame: CGRect
     
-    public init(content: T, frame: CGRect) {
+    public init(content: T, frame: CGRect = .zero) {
         self.content = content
         self.frame = frame
     }
+    
 }
 
-public struct TRVectorImage:TRContent{
-    
-    
-    public var contentMode: TROfflineRender.ContentMode
-    
-    
-    public var image:TRVerterImage
-    
-    public init(contentMode: TROfflineRender.ContentMode, image: TRVerterImage) {
-        self.contentMode = contentMode
-        self.image = image
+public class TRRunView<T:TRRenderable>:TRFontRunDelegate{
+    public var char: Character {
+        "\u{fffc}"
     }
     
-    public func render(frame: CGRect, ctx: CGContext) {
-        let frame = TROfflineRender.contentMode(itemFrame: image.frame, containerFrame: frame, mode: contentMode)
-        image.draw(ctx: ctx, frame: frame)
+    public var descent: CGFloat = 0
+    
+    public var ascent: CGFloat = 0
+    
+    public var width: CGFloat = 0
+    
+    public func load(descent: CGFloat, ascent: CGFloat, width: CGFloat) {
+        self.descent = descent
+        self.ascent = ascent
+        self.width = width
+    }
+    
+    public var content: T
+    
+    
+    public init(content: T) {
+        self.content = content
     }
 }
-
-public struct TRImage:TRContent{
+public class TRSpacing:TRRunView<TRView<CGColor>>{
     
-    public var image:CGImage
-    
-    public var contentMode: TROfflineRender.ContentMode
-    
-    public init(image: CGImage, contentMode: TROfflineRender.ContentMode) {
-        self.image = image
-        self.contentMode = contentMode
+    public override var char: Character {
+        " "
     }
     
-    public func render(frame: CGRect, ctx: CGContext) {
-        let frame = TROfflineRender.contentMode(itemFrame: CGRect(x: 0, y: 0, width: image.width, height: image.height), containerFrame: frame, mode: contentMode)
-        ctx.draw(image, in: frame, byTiling: false)
+    public var spacing:CGFloat
+    
+    public override var width: CGFloat{
+        get{
+            return spacing
+        }
+        set{
+//            spacing = newValue
+        }
+    }
+    public init(spacing: CGFloat) {
+        self.spacing = spacing
+        super.init(content: TRView(content: UIColor.clear.cgColor))
+    }
+    
+}
+
+extension TRRunView {
+    public func createAttibuteString(font:UIFont,attribute:[NSAttributedString.Key:Any])->NSAttributedString{
+        self.loadFont(font: font)
+        let att = TRTextFrame.createRunDelegate(run: self, attribute: attribute)
+        return att
     }
 }

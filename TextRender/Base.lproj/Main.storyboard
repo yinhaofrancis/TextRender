@@ -17,19 +17,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qLg-AA-dn4">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qLg-AA-dn4">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="h3B-0W-KBz"/>
                         <color key="backgroundColor" systemColor="systemBrownColor"/>
                         <constraints>
-                            <constraint firstItem="qLg-AA-dn4" firstAttribute="top" secondItem="sYg-Hr-A9l" secondAttribute="top" id="6uJ-Gn-YLm"/>
-                            <constraint firstItem="qLg-AA-dn4" firstAttribute="centerY" secondItem="sYg-Hr-A9l" secondAttribute="centerY" id="I47-eP-Dhm"/>
-                            <constraint firstItem="qLg-AA-dn4" firstAttribute="leading" secondItem="sYg-Hr-A9l" secondAttribute="leading" id="Rfu-aZ-eSh"/>
-                            <constraint firstAttribute="bottom" secondItem="qLg-AA-dn4" secondAttribute="bottom" id="hq4-N8-j9H"/>
-                            <constraint firstAttribute="trailing" secondItem="qLg-AA-dn4" secondAttribute="trailing" id="o6B-st-mYF"/>
-                            <constraint firstItem="qLg-AA-dn4" firstAttribute="centerX" secondItem="sYg-Hr-A9l" secondAttribute="centerX" id="pF3-Gq-8ru"/>
+                            <constraint firstItem="qLg-AA-dn4" firstAttribute="centerY" secondItem="sYg-Hr-A9l" secondAttribute="centerY" id="DJe-JB-hol"/>
+                            <constraint firstItem="qLg-AA-dn4" firstAttribute="centerX" secondItem="sYg-Hr-A9l" secondAttribute="centerX" id="hMf-aT-spk"/>
                         </constraints>
                     </view>
                     <connections>

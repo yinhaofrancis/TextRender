@@ -15,8 +15,19 @@ extension NSAttributedString.Key{
 }
 
 
+public protocol TRDebug{
+    func drawLineFrame(ctx:CGContext)
+}
 
-public struct TRRun{
+
+public struct TRRun:TRDebug{
+    public func drawLineFrame(ctx: CGContext) {
+        ctx.saveGState()
+        ctx.setStrokeColor(UIColor.blue.cgColor)
+        ctx.stroke(rect, width: 1)
+        ctx.restoreGState()
+    }
+    
     public let run:CTRun
     
     public let lineOrigin:CGPoint
@@ -55,12 +66,23 @@ public struct TRRun{
     public var attribute:[NSAttributedString.Key:Any]{
         CTRunGetAttributes(self.run) as! [NSAttributedString.Key : Any]
     }
-    public var runDelegate:TRRunDelegate?{
-        self.attribute[.runDelegate] as? TRRunDelegate
+    public var runDelegate:(any TRRunDelegate)?{
+        self.attribute[.runDelegate] as? (any TRRunDelegate)
     }
 }
 
-public struct TRLine{
+public struct TRLine:TRDebug{
+    
+    public func drawLineFrame(ctx: CGContext) {
+        for i in self.runs{
+            i.drawLineFrame(ctx: ctx)
+        }
+        ctx.saveGState()
+        ctx.setStrokeColor(UIColor.green.cgColor)
+        ctx.stroke(rect, width: 1)
+        ctx.restoreGState()
+    }
+    
     
     public let line:CTLine
     
@@ -76,10 +98,26 @@ public struct TRLine{
     
     public let width:CGFloat
     
-    public var rect:CGRect{
+    public func truncateLine(type:CTLineTruncationType,token:CTLine?)->TRLine{
+        guard let token else {
+            return self
+        }
+        if self.runs.last?.runDelegate != nil{
+            
+        }
+        let w = TRLine(line: token, origin: .zero).width;
+        guard let l = CTLineCreateTruncatedLine(self.line, self.width - w, type, token) else { return self }
+        print(l)
+        return TRLine(line: l, origin: self.frameOrigin)
+    }
+    
+    public var glyphsRect:CGRect{
         var ib = CTLineGetImageBounds(self.line, nil)
         ib.origin.y += self.frameOrigin.y
         return ib
+    }
+    public var rect:CGRect{
+        return CGRect(x: self.frameOrigin.x, y: self.frameOrigin.y - descent, width: self.width, height: self.ascent + self.descent)
     }
     public func hit(point:CGPoint)->TRRun?{
         for i in self.runs{
@@ -102,8 +140,15 @@ public struct TRLine{
     }
 }
 
-public struct TRText:Hashable{
-    public static func == (lhs: TRText, rhs: TRText) -> Bool {
+public struct TRTextFrame:Hashable,TRDebug{
+    
+    public func drawLineFrame(ctx: CGContext) {
+        for i in self.lines{
+            i.drawLineFrame(ctx: ctx)
+        }
+    }
+    
+    public static func == (lhs: TRTextFrame, rhs: TRTextFrame) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
     public func hash(into hasher: inout Hasher) {
@@ -123,13 +168,14 @@ public struct TRText:Hashable{
     public let lines:[TRLine]
     
     public let size:CGSize
-        
+    
     public init(width:CGFloat,string:CFAttributedString){
-        self.init(constaint: CGSize(width: width, height: .infinity), string: string)
+        self.init(constaint: CGSize(width: width, height: .infinity), string: string, truncation:nil)
         
     }
+    
 
-    public init(constaint:CGSize,string:CFAttributedString){
+    public init(constaint:CGSize,string:CFAttributedString,truncation:CFAttributedString?){
         self.string = string
         let len = CFAttributedStringGetLength(string)
         let frameset = CTFramesetterCreateWithAttributedString(string)
@@ -152,7 +198,12 @@ public struct TRText:Hashable{
         let p = UnsafeMutablePointer<CGPoint>.allocate(capacity: ctline.count)
         CTFrameGetLineOrigins(frame, CFRangeMake(0,0), p)
         for i in 0 ..< ctline.count {
-            lines.append(TRLine(line: ctline[i], origin: p.advanced(by: i).pointee))
+            if(isTrancate && i == ctline.count - 1){
+                let tline = truncation != nil ? CTLineCreateWithAttributedString(truncation!) : nil
+                lines.append(TRLine(line: ctline[i], origin: p.advanced(by: i).pointee).truncateLine(type: .end, token: tline))
+            }else{
+                lines.append(TRLine(line: ctline[i], origin: p.advanced(by: i).pointee))
+            }
         }
         p.deallocate()
         self.lines = lines
@@ -180,145 +231,36 @@ public struct TRText:Hashable{
         self.lines.flatMap {$0.runs}.filter {$0.runDelegate != nil }
     }
     public func draw(ctx:CGContext){
-        CTFrameDraw(self.frame, ctx)
-    }
-}
-
-
-
-public protocol TRRunDelegate {
-    var descent:CGFloat { get }
-    
-    var ascent:CGFloat { get }
-    
-    var width:CGFloat { get }
-    
-    var content:TRRunContent? { get }
-}
-
-
-public protocol TRRunContent {
-    func render(rect:CGRect,ctx:CGContext)
-}
-
-
-extension UIColor:TRRunContent{
-    public func render(rect: CGRect, ctx: CGContext) {
-        ctx.saveGState()
-        ctx.setFillColor(self.cgColor)
-        ctx.fill([rect])
-        ctx.restoreGState()
-    }
-}
-
-
-extension CGImage:TRRunContent{
-    public func render(rect: CGRect, ctx: CGContext) {
-        ctx.saveGState()
-        let w = self.width
-        let h = self.height
-        let ratioW = rect.width / CGFloat(w)
-        let ratioH = rect.height / CGFloat(h)
-        let ratio = min(ratioW, ratioH)
-        let rw = CGFloat(w) * ratio
-        let rh = CGFloat(h) * ratio
-        let x = (rect.width - rw) / 2 + rect.minX
-        let y = (rect.height - rh) / 2 + rect.minY
-        let rect = CGRect(x: x, y: y, width: rw, height: rh)
-        ctx.draw(self, in: rect, byTiling: false)
-        ctx.restoreGState()
-    }
-}
-
-
-
-class WrapRunDelegate{
-    var tRunDelegate:TRRunDelegate
-    init(tRunDelegate: TRRunDelegate) {
-        self.tRunDelegate = tRunDelegate
-    }
-}
-
-
-extension TRRunDelegate{
-    var runDelegateCallback:CTRunDelegateCallbacks{
-        CTRunDelegateCallbacks(version: 0) { i in
-            Unmanaged<WrapRunDelegate>.fromOpaque(i).release()
-        } getAscent: { i in
-            Unmanaged<WrapRunDelegate>.fromOpaque(i).takeUnretainedValue().tRunDelegate.ascent
-        } getDescent: { i in
-            Unmanaged<WrapRunDelegate>.fromOpaque(i).takeUnretainedValue().tRunDelegate.descent
-        } getWidth: { i in
-            Unmanaged<WrapRunDelegate>.fromOpaque(i).takeUnretainedValue().tRunDelegate.width
+        if(isTrancate){
+            for line in lines {
+                ctx.saveGState()
+                ctx.textPosition = line.frameOrigin
+                CTLineDraw(line.line, ctx)
+                ctx.restoreGState()
+            }
+        }else{
+//            ctx.saveGState()
+            CTFrameDraw(self.frame, ctx)
+//            ctx.restoreGState()
         }
     }
-    
-    var runDelegate:CTRunDelegate?{
-        var call = self.runDelegateCallback
-        return CTRunDelegateCreate(&call, Unmanaged.passRetained(WrapRunDelegate(tRunDelegate: self)).toOpaque())
-    }
 }
 
-
-
-public struct TRPlainRunDelegate:TRRunDelegate{
-    
-    public var content: TRRunContent?
-
-    public var descent: CGFloat
-    
-    public var ascent: CGFloat
-    
-    public var width: CGFloat
-    
-    public var color: UIColor = UIColor.black
-    
-    public init(descent: CGFloat, ascent: CGFloat, width: CGFloat) {
-        self.descent = descent
-        self.ascent = ascent
-        self.width = width
-    }
-    
-}
-
-public struct TRFontRunDelegate:TRRunDelegate{
-    
-    public var content: TRRunContent?
-    
-    public var descent: CGFloat
-    
-    public var ascent: CGFloat
-    
-    public var width: CGFloat
-
-    
-    public init(font: UIFont) {
-        self.descent = -font.descender
-        self.ascent = font.ascender
-        self.width = font.pointSize
-    }
-    public init(font: CTFont) {
-        self.descent = CTFontGetDescent(font)
-        self.ascent = CTFontGetAscent(font)
-        self.width = CTFontGetSize(font)
-    }
-    
-}
-
-extension TRText{    
-    public static func createRunDelegate(run:TRRunDelegate)->NSAttributedString{
+extension TRTextFrame{    
+    public static func createRunDelegate(run:any TRRunDelegate,attribute:[NSAttributedString.Key:Any])->NSAttributedString{
         
-        return NSAttributedString(string: "\u{fffd}",attributes: [
-            .runDelegate:run,
-            NSAttributedString.Key(kCTRunDelegateAttributeName as String):run.runDelegate as Any
-        ])
+        var attr = attribute;
+        attr[.runDelegate] = run
+        attr[NSAttributedString.Key(kCTRunDelegateAttributeName as String)] = run.runDelegate as Any
+        return NSAttributedString(string: String(run.char),attributes:attr)
     }
     public func render(helper:TROfflineRender)->CGLayer?{
-        helper.layer(size: self.size.applying(CGAffineTransform(scaleX: CGFloat(helper.scale), y: CGFloat(helper.scale)))) { ctx in
-            CTFrameDraw(self.frame, ctx)
+        helper.layer(size: self.size) { ctx in
+            self.draw(ctx: ctx)
             for i in self.runDelegateRun{
-                i.runDelegate?.content?.render(rect: i.rect,ctx: ctx)
+                i.runDelegate?.content.draw(frame: i.rect, ctx: ctx)
             }
         }
     }
 }
+

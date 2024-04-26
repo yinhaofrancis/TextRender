@@ -33,7 +33,7 @@ public class TROfflineRender{
     }
     
     public func layer(size:CGSize,call:(CGContext)->Void)->CGLayer?{
-        guard let layer = CGLayer(self.context, size: size, auxiliaryInfo: nil) else { return nil }
+        guard let layer = CGLayer(self.context, size: size.applying(CGAffineTransform(scaleX: CGFloat(self.scale), y: CGFloat(self.scale))), auxiliaryInfo: nil) else { return nil }
         guard let ctx = layer.context else { return nil }
         layer.context?.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))
         call(ctx)

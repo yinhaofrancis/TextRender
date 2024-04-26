@@ -8,6 +8,7 @@
 import Foundation
 import CoreText
 
-public struct TRTextSpan {
+
+public struct TRTextSpan{
     
 }
