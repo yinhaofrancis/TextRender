@@ -48,11 +48,14 @@ class TViewController: UIViewController {
         }
         self.imageV.image = UIImage(cgImage: cgimg!,scale: 3,orientation: .up)
     }
-    
+    var spacing:CGFloat = 0
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         let offset:CGFloat = 0.5
-        let spacing = CGFloat.random(in: 0 ..< 40)
+        spacing += 0.5
+        if spacing > 40{
+            spacing = 0
+        }
         
         let image = try! TRPDFImageSet(url: Bundle.main.url(forResource: "iphone_portrait", withExtension:"pdf")!)[1]
         
@@ -67,12 +70,10 @@ class TViewController: UIViewController {
         ]
         var att = v.createAttibuteString(font: UIFont.systemFont(ofSize: 28), attribute: p) +
         TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) +
-        NSAttributedString(string: "😊😊😊😊😊", attributes: p)
+        NSAttributedString(string: "this is my life please", attributes: p)
         att = att + TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) + att
         att = att + TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) + att
-        var r = TRTextFrame(constaint: CGSize(width: 200, height: 128), string: att, truncation: NSAttributedString(string: "……", attributes: [
-            .font:UIFont.systemFont(ofSize: 28)
-        ]))
+        var r = TRTextFrame(width:320, string: att)
         
         let frame = r.size
         let render = try! TROfflineRender(width: Int(frame.width), height: Int(frame.height), scale: 3)
