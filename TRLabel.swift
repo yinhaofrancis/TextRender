@@ -10,20 +10,15 @@ import UIKit
 public class TRLabel:UIView{
     public var text:NSAttributedString?{
         didSet{
-            self.setNeedsDisplay()
-            self.contentSize = nil
+            self.setNeedsLayout()
         }
     }
     public var renderMode:TROfflineRender.ContentMode = .center(1)
-    public var contentSize:CGSize?
+    public var contentMaxWidth:CGFloat?
     public override func layoutSubviews() {
         super.layoutSubviews()
         let size = self.bounds.size
-        if contentSize == nil,let text = self.text{
-            self.contentSize = TRTextFrame(width: self.bounds.size.width, string: text).size
-            self.setNeedsLayout()
-            self.invalidateIntrinsicContentSize()
-        }else if let text = self.text{
+        if let text = self.text{
             self.layer.contentsScale = 3
             let tral = NSAttributedString(string: "……")
             let content = TRTextFrame(constaint: size, string: text, truncation: tral)
@@ -39,12 +34,12 @@ public class TRLabel:UIView{
     }
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        self.contentSize = nil
+        self.setNeedsLayout()
     }
-    public override func updateConstraints() {
-        super.updateConstraints()
-    }
+
     public override var intrinsicContentSize: CGSize{
-        return contentSize ?? CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric)
+        guard let text = self.text else { return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric) }
+        let content = TRTextFrame(width: self.contentMaxWidth ?? self.bounds.width, string: text)
+        return content.size
     }
 }

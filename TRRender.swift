@@ -168,7 +168,22 @@ extension TROfflineRender {
         return CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -CGFloat(self.height))
     }
 }
-
+extension TROfflineRender{
+    public static func registerFont(url:URL)->String?{
+        guard let dat = CGDataProvider(url: url as CFURL) else { return nil }
+        guard let cgfont = CGFont(dat) else { return nil }
+        guard let name = cgfont.fullName as? String else { return nil }
+        var err:Unmanaged<CFError>?
+        CTFontManagerRegisterGraphicsFont(cgfont, &err)
+        if(err != nil){
+            return nil
+        }
+        return name
+    }
+    
+    
+    
+}
 func +(_ p1:CGPoint,_ p2:CGPoint)->CGPoint{
     return CGPoint(x: p1.x + p2.x, y: p1.y + p2.y)
 }
@@ -176,3 +191,5 @@ func +(_ p1:CGPoint,_ p2:CGPoint)->CGPoint{
 func -(_ p1:CGPoint,_ p2:CGPoint)->CGPoint{
     return CGPoint(x: p1.x - p2.x, y: p1.y - p2.y)
 }
+
+

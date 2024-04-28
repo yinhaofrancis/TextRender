@@ -12,10 +12,12 @@ class TViewController: UIViewController {
 
     @IBOutlet var imageV:UIImageView!
     
-
     var label:TRLabel?
     override func viewDidLoad() {
         super.viewDidLoad()
+        let font = TROfflineRender.registerFont(url: Bundle.main.url(forResource: "DINPRO-BOLD", withExtension: "OTF")!)
+        print(font)
+        
         let label = TRLabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         self.view.addSubview(label)
         let a = [
@@ -35,7 +37,7 @@ class TViewController: UIViewController {
     func drawImage() {
         let offset:CGFloat = CGFloat.random(in: 0 ... 1)
         
-        let image = try! TRPDFImageSet(url: Bundle.main.url(forResource: "iphone_portrait", withExtension:"pdf")!)[1]
+        let image = try! TRPDFImageSet(url: Bundle.main.url(forResource: "avd", withExtension:"pdf")!)[1]
         
         let v = TRView(content: TRVectorImage(contentMode: .scaleAspectFit(offset), image: image!), frame: CGRect(x:10, y: 10, width: 350, height: 480))
         let render = try! TROfflineRender(width: Int(self.view.frame.width), height: Int(self.view.frame.height), scale: 3)
@@ -48,7 +50,7 @@ class TViewController: UIViewController {
     
     func renderText() {
         let t = TRTextFrame(width: 320, string: NSAttributedString(string: "dadasda", attributes: [
-            .font:UIFont.systemFont(ofSize: 15),.foregroundColor:UIColor.red
+            .font:UIFont(name: "DINPro-Bold", size: 15),.foregroundColor:UIColor.red
         ]))
         
         let frame = t.size
@@ -80,15 +82,15 @@ class TViewController: UIViewController {
         l.add(a, forKey: nil)
     }
     
-    var attribute:NSAttributedString = {
+    lazy var attribute:NSAttributedString = {
         let param = NSMutableParagraphStyle()
         param.minimumLineHeight = 8
         let p:[NSAttributedString.Key:Any] = [
-            .font:UIFont.systemFont(ofSize: 28),
+            .font:UIFont(name: "DINPro-Bold", size: 28)!,
             .foregroundColor:UIColor.black,
             .paragraphStyle : param
         ]
-        let image = try! TRPDFImageSet(url: Bundle.main.url(forResource: "iphone_portrait", withExtension:"pdf")!)[1]
+        let image = try! TRPDFImageSet(url: Bundle.main.url(forResource: "avd", withExtension:"pdf")!)[1]
         let offset:CGFloat = 0.5
         let v = TRRunView(content: TRView(content: TRVectorImage(contentMode: .scaleAspectFit(offset), image: image!)))
         let spacing:CGFloat = 10
