@@ -13,8 +13,21 @@ class TViewController: UIViewController {
     @IBOutlet var imageV:UIImageView!
     
 
+    var label:TRLabel?
     override func viewDidLoad() {
         super.viewDidLoad()
+        let label = TRLabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        self.view.addSubview(label)
+        let a = [
+            label.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        ]
+        label.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addConstraints(a)
+        self.view.addConstraint(label.heightAnchor.constraint(equalToConstant: 65))
+        self.label = label
+        self.label?.text = self.attribute
         self.loadImage()
     }
     
@@ -69,7 +82,7 @@ class TViewController: UIViewController {
     
     var attribute:NSAttributedString = {
         let param = NSMutableParagraphStyle()
-        param.minimumLineHeight = 64
+        param.minimumLineHeight = 8
         let p:[NSAttributedString.Key:Any] = [
             .font:UIFont.systemFont(ofSize: 28),
             .foregroundColor:UIColor.black,

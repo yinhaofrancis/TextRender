@@ -263,6 +263,7 @@ extension TRTextFrame{
             for i in self.runDelegateRun{
                 i.runDelegate?.content.draw(frame: i.rect, ctx: ctx)
             }
+            self.drawLineFrame(ctx: ctx)
         }
     }
 }
