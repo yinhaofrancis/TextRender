@@ -157,6 +157,22 @@ extension TROfflineRender {
         let item = centerAndScale(percentX:1,percentY:1, containerFrame: containerFrame, itemFrame: itemFrame, ratioX: 1, ratioY: 1)
         return itemFrame.applying(item)
     }
+    public func transformCoodination(leftTop:CGPoint)->CGPoint{
+        let transform = self.transformCoodinationTransform()
+        return leftTop.applying(transform)
+    }
+    public func transformCoodinationTransform()->CGAffineTransform{
+        return CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -CGFloat(self.height))
+    }
+    public func transformCoodinationToLeftTopTransform()->CGAffineTransform{
+        return CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -CGFloat(self.height))
+    }
 }
 
+func +(_ p1:CGPoint,_ p2:CGPoint)->CGPoint{
+    return CGPoint(x: p1.x + p2.x, y: p1.y + p2.y)
+}
 
+func -(_ p1:CGPoint,_ p2:CGPoint)->CGPoint{
+    return CGPoint(x: p1.x - p2.x, y: p1.y - p2.y)
+}

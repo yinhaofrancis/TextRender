@@ -107,7 +107,6 @@ public struct TRLine:TRDebug{
         }
         let w = TRLine(line: token, origin: .zero).width;
         guard let l = CTLineCreateTruncatedLine(self.line, self.width - w, type, token) else { return self }
-        print(l)
         return TRLine(line: l, origin: self.frameOrigin)
     }
     
@@ -119,13 +118,15 @@ public struct TRLine:TRDebug{
     public var rect:CGRect{
         return CGRect(x: self.frameOrigin.x, y: self.frameOrigin.y - descent, width: self.width, height: self.ascent + self.descent)
     }
-    public func hit(point:CGPoint)->TRRun?{
-        for i in self.runs{
-            if(i.rect.contains(point)){
-                return i
-            }
+    public func hitIndex(point:CGPoint)->CFIndex{
+        if(point.y > 0){
+            return CTLineGetStringIndexForPosition(self.line, point)
         }
-        return nil
+        return kCFNotFound
+    }
+    public func penOffset(index:CFIndex)->CGRect{
+        let offet = CTLineGetOffsetForStringIndex(self.line, index, nil)
+        return CGRect(x: self.frameOrigin.x + offet, y: glyphsRect.minY,width:1,height:self.glyphsRect.height)
     }
     public init(line: CTLine,origin:CGPoint) {
         self.line = line
@@ -211,21 +212,23 @@ public struct TRTextFrame:Hashable,TRDebug{
     public var length:Int{
         CFAttributedStringGetLength(self.string)
     }
-    public func hit(point:CGPoint)->TRLine?{
+
+    public func hitIndex(leftCoodiPoint:CGPoint,render:TROfflineRender)->(CFIndex,TRLine?){
+        let point = render.transformCoodination(leftTop: leftCoodiPoint)
         for i in self.lines{
-            if(i.rect.contains(point)){
-                return i
+            let relatePoint = point - i.frameOrigin
+            let index = i.hitIndex(point: relatePoint)
+            if(index != kCFNotFound){
+                return (index,i)
             }
         }
-        return nil
+        return (kCFNotFound,nil)
     }
-    public func hitRun(point:CGPoint)->TRRun?{
-        for i in self.lines{
-            if(i.rect.contains(point)){
-                return i.hit(point: point)
-            }
-        }
-        return nil
+    public func penOffset(leftCoodiPosition:CGPoint,render:TROfflineRender)->(CGRect,CFIndex)?{
+        let offset = self.hitIndex(leftCoodiPoint: leftCoodiPosition, render: render)
+        guard let line = offset.1 else { return nil}
+        
+        return (line.penOffset(index: offset.0),offset.0)
     }
     public var runDelegateRun:[TRRun]{
         self.lines.flatMap {$0.runs}.filter {$0.runDelegate != nil }
