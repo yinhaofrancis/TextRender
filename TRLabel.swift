@@ -43,10 +43,10 @@ public class TRLabel:UIControl{
             self.render = try? TROfflineRender(width: Int(size.width), height: Int(size.height), scale: Int(scale))
             DispatchQueue.global().async {
                 let image = self.render?.draw { helper in
-                    guard let l = content.render(helper: helper) else { return }
+                    guard let l = content.render(scale: Int(scale)) else { return }
                     let itemframe = CGRect(origin: .zero, size: content.size)
                     let target =  TROfflineRender.contentMode(itemFrame: itemframe, containerFrame: container, mode: mode)
-                    helper.context.draw(l, in: target)
+                    helper.context.draw(l, in: target, byTiling: false)
                 }
                 DispatchQueue.main.async {
                     if self.cache == content{

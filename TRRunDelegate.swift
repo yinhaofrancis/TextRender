@@ -22,8 +22,6 @@ public protocol TRRunDelegate {
     
     var width:CGFloat { get }
     
-    func load(descent:CGFloat,ascent:CGFloat,width:CGFloat)
-    
     var content:R { get }
 }
 
@@ -71,16 +69,8 @@ public protocol TRFrameRunDelegate:TRRunDelegate{
 
 public protocol TRFontRunDelegate:TRRunDelegate{
     
+}
 
-}
-extension TRFontRunDelegate{
-    public func loadFont(font: UIFont){
-        self.load(descent: -font.descender, ascent: font.ascender, width: font.pointSize)
-    }
-    public func loadFont(font: CTFont){
-        self.load(descent: CTFontGetDescent(font), ascent: CTFontGetAscent(font), width: CTFontGetSize(font))
-    }
-}
 
 
 func + (left:NSAttributedString,right:NSAttributedString)->NSAttributedString{

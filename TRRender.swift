@@ -16,6 +16,12 @@ public class TROfflineRender{
     public let height:Int
     public let context:CGContext
     public let scale:Int
+    public init(width: Int, height: Int,scale:Int,context:CGContext){
+        self.width = width
+        self.height = height
+        self.scale = scale
+        self.context = context
+    }
     public init(width: Int, height: Int,scale:Int) throws {
         self.width = width
         self.height = height
@@ -38,12 +44,18 @@ public class TROfflineRender{
         return CGImageSourceCreateImageAtIndex(source, 0, nil) ?? rawimage
     }
     
-    public func layer(size:CGSize,call:(CGContext)->Void)->CGLayer?{
+    public func layer(size:CGSize,call:(TROfflineRender)->Void)->CGLayer?{
         guard let layer = CGLayer(self.context, size: size.applying(CGAffineTransform(scaleX: CGFloat(self.scale), y: CGFloat(self.scale))), auxiliaryInfo: nil) else { return nil }
         guard let ctx = layer.context else { return nil }
-        layer.context?.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))
-        call(ctx)
-        return layer
+        do{
+            let render = try TROfflineRender(width: Int(size.width), height: Int(size.height), scale: self.scale)
+            layer.context?.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))
+            call(render)
+            return layer
+        }catch{
+            return nil
+        }
+        
     }
 }
 
@@ -186,9 +198,6 @@ extension TROfflineRender{
         }
         return name
     }
-    
-    
-    
 }
 func +(_ p1:CGPoint,_ p2:CGPoint)->CGPoint{
     return CGPoint(x: p1.x + p2.x, y: p1.y + p2.y)

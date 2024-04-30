@@ -15,11 +15,11 @@ extension CGColor:TRContent{
         .scaleToFill
     }
     
-    public func render(frame: CGRect, ctx: CGContext) {
-        ctx.saveGState()
-        ctx.setFillColor(self)
-        ctx.fill([frame])
-        ctx.restoreGState()
+    public func render(frame: CGRect, render:TROfflineRender) {
+        render.context.saveGState()
+        render.context.setFillColor(self)
+        render.context.fill([frame])
+        render.context.restoreGState()
     }
     
 }
@@ -37,9 +37,9 @@ public struct TRVectorImage:TRContent{
         self.image = image
     }
     
-    public func render(frame: CGRect, ctx: CGContext) {
+    public func render(frame: CGRect, render:TROfflineRender) {
         let frame = TROfflineRender.contentMode(itemFrame: image.frame, containerFrame: frame, mode: contentMode)
-        image.draw(ctx: ctx, frame: frame)
+        image.draw(ctx: render.context, frame: frame)
     }
 }
 
@@ -54,28 +54,9 @@ public struct TRImage:TRContent{
         self.contentMode = contentMode
     }
     
-    public func render(frame: CGRect, ctx: CGContext) {
+    public func render(frame: CGRect,render:TROfflineRender) {
         let frame = TROfflineRender.contentMode(itemFrame: CGRect(x: 0, y: 0, width: image.width, height: image.height), containerFrame: frame, mode: contentMode)
-        ctx.draw(image, in: frame, byTiling: false)
+        render.context.draw(image, in: frame, byTiling: false)
     }
 }
 
-
-
-public class TRDelegate:TRContent{
-    
-    public var contentMode: TROfflineRender.ContentMode
-    
-    public var transform:CGAffineTransform
-    
-    public init(contentMode: TROfflineRender.ContentMode, transform: CGAffineTransform) {
-        self.contentMode = contentMode
-        self.transform = transform
-    }
-    
-    public func render(frame: CGRect, ctx: CGContext) {
-        
-    }
-    
-    
-}

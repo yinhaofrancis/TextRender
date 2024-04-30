@@ -13,47 +13,11 @@ extension NSAttributedString.Key{
     public static let runDelegate:NSAttributedString.Key = NSAttributedString.Key("kTRRunDelegateAttributeName")
     
     public static let url:NSAttributedString.Key = NSAttributedString.Key("kTRAttributeURL")
+
+}
+
+public struct TRRun{
     
-    public static let decoration:NSAttributedString.Key = NSAttributedString.Key("kTRDecoration")
-}
-
-
-public protocol TRDecoration{
-    var backgroundColor:CGColor? { get }
-    var borderColor:CGColor? { get }
-    var borderLineWidth:CGFloat? { get }
-}
-
-public protocol TRDrawDecoration{
-    
-    var rect:CGRect { get }
-}
-extension TRDrawDecoration{
-    public func drawContent(ctx:CGContext,decoration:TRDecoration){
-        if let bgcolor = decoration.backgroundColor{
-            ctx.saveGState()
-            ctx.addPath(CGPath(rect: self.rect, transform: nil))
-            ctx.setFillColor(bgcolor)
-            ctx.fillPath()
-            ctx.restoreGState()
-        }
-        if let bc = decoration.borderColor{
-            ctx.saveGState()
-            ctx.addPath(CGPath(rect: self.rect, transform: nil))
-            ctx.setStrokeColor(bc)
-            ctx.setLineWidth(decoration.borderLineWidth ?? 1)
-            ctx.strokePath()
-            ctx.restoreGState()
-        }
-    }
-}
-
-public struct TRRun:TRDrawDecoration{
-    
-    public func drawDecoration(ctx:CGContext){
-        guard let d = self.decoration else { return }
-        self.drawContent(ctx: ctx, decoration: d)
-    }
     public let run:CTRun
     
     public let lineOrigin:CGPoint
@@ -69,9 +33,6 @@ public struct TRRun:TRDrawDecoration{
             return self.getRect(range: .init(location: 0, length: 0))
         }
         
-    }
-    public var decoration:TRDecoration?{
-        return self.attribute[NSAttributedString.Key.decoration] as? TRDecoration
     }
     public subscript(range:Range<Int>)->CGRect{
         let range = CFRange(location: range.lowerBound, length: range.upperBound - range.lowerBound)
@@ -183,8 +144,10 @@ public struct TRLine{
 public struct TRTextFrame:Hashable,TRContent{
     public var contentMode: TROfflineRender.ContentMode = .center(1)
     
-    public func render(frame: CGRect, ctx: CGContext) {
-        
+    public func render(frame: CGRect, render:TROfflineRender) {
+        guard let img = self.render(scale: render.scale) else { return }
+        let result = TROfflineRender.contentMode(itemFrame: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height), containerFrame: frame, mode: contentMode)
+        render.context.draw(img, in: result, byTiling: false)
     }
     
     
@@ -280,11 +243,6 @@ public struct TRTextFrame:Hashable,TRContent{
         self.lines.flatMap {$0.runs}.filter {$0.runDelegate != nil }
     }
     public func draw(ctx:CGContext){
-        for l in self.lines{
-            for r in l.runs{
-                r.drawDecoration(ctx: ctx)
-            }
-        }
         if(isTrancate){
             for line in lines {
                 line.draw(ctx: ctx)
@@ -303,11 +261,12 @@ extension TRTextFrame{
         attr[NSAttributedString.Key(kCTRunDelegateAttributeName as String)] = run.runDelegate as Any
         return NSAttributedString(string: String(run.char),attributes:attr)
     }
-    public func render(helper:TROfflineRender)->CGLayer?{
-        helper.layer(size: self.size) { ctx in
-            self.draw(ctx: ctx)
+    public func render(scale:Int)->CGImage?{
+        let render = try? TROfflineRender(width: Int(self.size.width), height: Int(self.size.height), scale: scale)
+        return render?.draw { off in
+            self.draw(ctx: off.context)
             for i in self.runDelegateRun{
-                i.runDelegate?.content.draw(frame: i.rect, ctx: ctx)
+                i.runDelegate?.content.draw(frame: i.rect,render: off)
             }
         }
     }
