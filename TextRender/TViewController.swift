@@ -16,7 +16,7 @@ class TViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let font = TROfflineRender.registerFont(url: Bundle.main.url(forResource: "DINPRO-BOLD", withExtension: "OTF")!)
-        print(font)
+        print(font as Any)
         
         let label = TRLabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         self.view.addSubview(label)
@@ -82,17 +82,21 @@ class TViewController: UIViewController {
         l.add(a, forKey: nil)
     }
     
+    lazy var m:testDecoration  = {
+        testDecoration(backgroundColor: UIColor.red.cgColor)
+    }()
     lazy var attribute:NSAttributedString = {
         let param = NSMutableParagraphStyle()
         param.minimumLineHeight = 8
         let p:[NSAttributedString.Key:Any] = [
             .font:UIFont(name: "DINPro-Bold", size: 28)!,
             .foregroundColor:UIColor.black,
-            .paragraphStyle : param
+            .paragraphStyle : param,
+            .decoration : m
         ]
         let image = try! TRPDFImageSet(url: Bundle.main.url(forResource: "avd", withExtension:"pdf")!)[1]
         let offset:CGFloat = 0.5
-        let v = TRRunView(content: TRView(content: TRVectorImage(contentMode: .scaleAspectFit(offset), image: image!)))
+        let v = TRTextImage(image: image!, contentMode: .scaleAspectFit(offset))
         let spacing:CGFloat = 10
         var att = v.createAttibuteString(font: UIFont.systemFont(ofSize: 28), attribute: p) +
         TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) +
@@ -111,7 +115,6 @@ class TViewController: UIViewController {
         let cgimg = render?.draw { helper in
             guard let l = r.render(helper: helper) else { return }
             helper.context.draw(l, in: CGRect(origin: .zero, size: frame))
-            r.drawLineFrame(ctx: helper.context)
         }
         self.imageV.image = UIImage(cgImage: cgimg!,scale: 3,orientation: .up)
     }

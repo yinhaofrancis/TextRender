@@ -11,23 +11,49 @@ import CoreGraphics
 import UIKit
 extension NSAttributedString.Key{
     public static let runDelegate:NSAttributedString.Key = NSAttributedString.Key("kTRRunDelegateAttributeName")
-    public static let url:NSAttributedString.Key = NSAttributedString.Key("kTRAttributeURL")
-}
-
-
-public protocol TRDebug{
-    func drawLineFrame(ctx:CGContext)
-}
-
-
-public struct TRRun:TRDebug{
-    public func drawLineFrame(ctx: CGContext) {
-        ctx.saveGState()
-        ctx.setStrokeColor(UIColor.blue.cgColor)
-        ctx.stroke(rect, width: 1)
-        ctx.restoreGState()
-    }
     
+    public static let url:NSAttributedString.Key = NSAttributedString.Key("kTRAttributeURL")
+    
+    public static let decoration:NSAttributedString.Key = NSAttributedString.Key("kTRDecoration")
+}
+
+
+public protocol TRDecoration{
+    var backgroundColor:CGColor? { get }
+    var borderColor:CGColor? { get }
+    var borderLineWidth:CGFloat? { get }
+}
+
+public protocol TRDrawDecoration{
+    
+    var rect:CGRect { get }
+}
+extension TRDrawDecoration{
+    public func drawContent(ctx:CGContext,decoration:TRDecoration){
+        if let bgcolor = decoration.backgroundColor{
+            ctx.saveGState()
+            ctx.addPath(CGPath(rect: self.rect, transform: nil))
+            ctx.setFillColor(bgcolor)
+            ctx.fillPath()
+            ctx.restoreGState()
+        }
+        if let bc = decoration.borderColor{
+            ctx.saveGState()
+            ctx.addPath(CGPath(rect: self.rect, transform: nil))
+            ctx.setStrokeColor(bc)
+            ctx.setLineWidth(decoration.borderLineWidth ?? 1)
+            ctx.strokePath()
+            ctx.restoreGState()
+        }
+    }
+}
+
+public struct TRRun:TRDrawDecoration{
+    
+    public func drawDecoration(ctx:CGContext){
+        guard let d = self.decoration else { return }
+        self.drawContent(ctx: ctx, decoration: d)
+    }
     public let run:CTRun
     
     public let lineOrigin:CGPoint
@@ -44,7 +70,9 @@ public struct TRRun:TRDebug{
         }
         
     }
-    
+    public var decoration:TRDecoration?{
+        return self.attribute[NSAttributedString.Key.decoration] as? TRDecoration
+    }
     public subscript(range:Range<Int>)->CGRect{
         let range = CFRange(location: range.lowerBound, length: range.upperBound - range.lowerBound)
         return getRect(range: range)
@@ -69,20 +97,25 @@ public struct TRRun:TRDebug{
     public var runDelegate:(any TRRunDelegate)?{
         self.attribute[.runDelegate] as? (any TRRunDelegate)
     }
+    public func inRange(index:CFIndex)->Bool{
+        let range = CTRunGetStringRange(self.run)
+        if range.location <=  index && range.location + range.length > index{
+            return true
+        }
+        return false
+    }
+    public var range:CFRange{
+        return CTRunGetStringRange(self.run)
+    }
 }
 
-public struct TRLine:TRDebug{
+public struct TRLine{
     
-    public func drawLineFrame(ctx: CGContext) {
-        for i in self.runs{
-            i.drawLineFrame(ctx: ctx)
+    subscript(index:CFIndex)->TRRun?{
+        return self.runs.first { r in
+            r.inRange(index: index)
         }
-        ctx.saveGState()
-        ctx.setStrokeColor(UIColor.green.cgColor)
-        ctx.stroke(rect, width: 1)
-        ctx.restoreGState()
     }
-    
     
     public let line:CTLine
     
@@ -139,15 +172,21 @@ public struct TRLine:TRDebug{
         self.width = width
         self.frameOrigin = origin
     }
+    public func draw(ctx:CGContext){
+        ctx.saveGState()
+        ctx.textPosition = self.frameOrigin
+        CTLineDraw(self.line, ctx)
+        ctx.restoreGState()
+    }
 }
 
-public struct TRTextFrame:Hashable,TRDebug{
+public struct TRTextFrame:Hashable,TRContent{
+    public var contentMode: TROfflineRender.ContentMode = .center(1)
     
-    public func drawLineFrame(ctx: CGContext) {
-        for i in self.lines{
-            i.drawLineFrame(ctx: ctx)
-        }
+    public func render(frame: CGRect, ctx: CGContext) {
+        
     }
+    
     
     public static func == (lhs: TRTextFrame, rhs: TRTextFrame) -> Bool {
         lhs.hashValue == rhs.hashValue
@@ -175,6 +214,13 @@ public struct TRTextFrame:Hashable,TRDebug{
         
     }
     
+    public func resize(width:CGFloat)->TRTextFrame{
+        return TRTextFrame(width: width, string: self.string)
+    }
+    
+    public func resize(constaint:CGSize,truncation:CFAttributedString?)->TRTextFrame{
+        return TRTextFrame(constaint: constaint, string: string, truncation: truncation)
+    }
 
     public init(constaint:CGSize,string:CFAttributedString,truncation:CFAttributedString?){
         self.string = string
@@ -234,17 +280,17 @@ public struct TRTextFrame:Hashable,TRDebug{
         self.lines.flatMap {$0.runs}.filter {$0.runDelegate != nil }
     }
     public func draw(ctx:CGContext){
+        for l in self.lines{
+            for r in l.runs{
+                r.drawDecoration(ctx: ctx)
+            }
+        }
         if(isTrancate){
             for line in lines {
-                ctx.saveGState()
-                ctx.textPosition = line.frameOrigin
-                CTLineDraw(line.line, ctx)
-                ctx.restoreGState()
+                line.draw(ctx: ctx)
             }
         }else{
-//            ctx.saveGState()
             CTFrameDraw(self.frame, ctx)
-//            ctx.restoreGState()
         }
     }
 }
@@ -263,7 +309,6 @@ extension TRTextFrame{
             for i in self.runDelegateRun{
                 i.runDelegate?.content.draw(frame: i.rect, ctx: ctx)
             }
-            self.drawLineFrame(ctx: ctx)
         }
     }
 }

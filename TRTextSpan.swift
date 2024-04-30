@@ -9,6 +9,4 @@ import Foundation
 import CoreText
 
 
-public struct TRTextSpan{
-    
-}
+

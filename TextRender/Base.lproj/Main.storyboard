@@ -58,9 +58,10 @@
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sXD-dF-40R" customClass="TRLabel" customModule="TextRender" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="393" height="44.666666666666664"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </view>
                                             </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="sXD-dF-40R" firstAttribute="leading" secondItem="AFU-Ez-9iZ" secondAttribute="leading" id="2RK-4b-CVF"/>
                                                 <constraint firstAttribute="trailing" secondItem="sXD-dF-40R" secondAttribute="trailing" id="8I0-vk-ucx"/>
@@ -68,6 +69,7 @@
                                                 <constraint firstItem="sXD-dF-40R" firstAttribute="top" secondItem="AFU-Ez-9iZ" secondAttribute="top" id="TR9-wt-58u"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="imageV" destination="sXD-dF-40R" id="2sf-5c-SfY"/>
                                         </connections>
@@ -98,14 +100,11 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBrownColor">
-            <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.63529411759999999" green="0.51764705879999995" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -29,7 +29,13 @@ public class TROfflineRender{
     public func draw(call:(TROfflineRender)->Void)->CGImage?{
         self.context.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))
         call(self)
-        return self.context.makeImage()
+        guard let rawimage = self.context.makeImage() else { return nil }
+        guard let data = CFDataCreateMutable(kCFAllocatorDefault, 0) else { return rawimage }
+        guard let dest = CGImageDestinationCreateWithData(data, "public.png" as CFString, 1, nil) else { return rawimage }
+        CGImageDestinationAddImage(dest, rawimage, nil)
+        CGImageDestinationFinalize(dest)
+        guard let source = CGImageSourceCreateWithData(data, nil) else { return rawimage }
+        return CGImageSourceCreateImageAtIndex(source, 0, nil) ?? rawimage
     }
     
     public func layer(size:CGSize,call:(CGContext)->Void)->CGLayer?{

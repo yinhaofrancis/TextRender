@@ -94,7 +94,11 @@ public class TRSpacing:TRRunView<TRView<CGColor>>{
         self.spacing = spacing
         super.init(content: TRView(content: UIColor.clear.cgColor))
     }
-    
+}
+public class TRTextImage:TRRunView<TRView<TRVectorImage>>{
+    public init(image:TRPDFImage,contentMode:TROfflineRender.ContentMode) {
+        super.init(content: TRView(content: TRVectorImage(contentMode: contentMode, image: image)))
+    }
 }
 
 extension TRRunView {

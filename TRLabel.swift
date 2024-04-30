@@ -7,39 +7,69 @@
 
 import UIKit
 
-public class TRLabel:UIView{
+
+
+public class TRLabel:UIControl{
     public var text:NSAttributedString?{
         didSet{
             self.setNeedsLayout()
         }
     }
+    private var cache:TRTextFrame?
+    
     public var renderMode:TROfflineRender.ContentMode = .center(1)
-    public var contentMaxWidth:CGFloat?
+    
+    private var render:TROfflineRender?
+    
+    lazy var contentMaxWidth:CGFloat = self.bounds.width
     public override func layoutSubviews() {
         super.layoutSubviews()
+        self.addTarget(self, action: #selector(hit(sender:event:)), for: .touchUpInside)
         let size = self.bounds.size
-        if let text = self.text{
+        if(Int(size.width) != Int(self.contentMaxWidth)){
+            self.contentMaxWidth = size.width
+            self.invalidateIntrinsicContentSize()
+            self.setNeedsUpdateConstraints()
+            self.setNeedsLayout()
+        }else if let text = self.text{
+            
             self.layer.contentsScale = 3
             let tral = NSAttributedString(string: "……")
             let content = TRTextFrame(constaint: size, string: text, truncation: tral)
-            let image = try? TROfflineRender(width: Int(size.width), height: Int(size.height), scale: Int(self.layer.contentsScale)).draw { helper in
-                guard let l = content.render(helper: helper) else { return }
-                let itemframe = CGRect(origin: .zero, size: content.size)
-                let container = self.bounds
-                let target =  TROfflineRender.contentMode(itemFrame: itemframe, containerFrame: container, mode: self.renderMode)
-                helper.context.draw(l, in: target)
+            self.cache = content
+            let scale = self.layer.contentsScale
+            let container = self.bounds
+            let mode = self.renderMode
+            self.render = try? TROfflineRender(width: Int(size.width), height: Int(size.height), scale: Int(scale))
+            DispatchQueue.global().async {
+                let image = self.render?.draw { helper in
+                    guard let l = content.render(helper: helper) else { return }
+                    let itemframe = CGRect(origin: .zero, size: content.size)
+                    let target =  TROfflineRender.contentMode(itemFrame: itemframe, containerFrame: container, mode: mode)
+                    helper.context.draw(l, in: target)
+                }
+                DispatchQueue.main.async {
+                    if self.cache == content{
+                        self.layer.contents = image
+                    }
+                }
             }
-            self.layer.contents = image
         }
     }
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        self.setNeedsLayout()
+        self.cache = nil
     }
 
     public override var intrinsicContentSize: CGSize{
         guard let text = self.text else { return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric) }
-        let content = TRTextFrame(width: self.contentMaxWidth ?? self.bounds.width, string: text)
+        let content = TRTextFrame(width: self.contentMaxWidth, string: text)
         return content.size
+    }
+    @objc func hit(sender:Any,event:UIEvent){
+        guard let point = event.allTouches?.first?.location(in: self) else { return }
+        guard let render = self.render else { return }
+        guard let r = self.cache?.hitIndex(leftCoodiPoint: point, render: render) else { return }
+        guard let range = r.1?[r.0]?.range else { return }
     }
 }

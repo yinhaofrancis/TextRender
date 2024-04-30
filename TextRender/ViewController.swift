@@ -28,17 +28,28 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let p:[NSAttributedString.Key:Any] = [
             .font:UIFont.systemFont(ofSize: 28),
             .foregroundColor:UIColor.black,
-            .paragraphStyle : param
+            .paragraphStyle : param,
+            .decoration:testDecoration(borderColor: UIColor.red.cgColor,borderLineWidth: 2)
         ]
         let image = try! TRPDFImageSet(url: Bundle.main.url(forResource: "avd", withExtension:"pdf")!)[1]
         let offset:CGFloat = 0.5
         let v = TRRunView(content: TRView(content: TRVectorImage(contentMode: .scaleAspectFit(offset), image: image!)))
         let spacing:CGFloat = 10
+        
+        let aa = NSAttributedString(string: "start", attributes: p)
         var att = v.createAttibuteString(font: UIFont.systemFont(ofSize: 28), attribute: p) +
-        TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) +
-        NSAttributedString(string: "this is my life please", attributes: p)
-        att = att + TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) + att
-        att = att + TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) + att
+        TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) + aa
+        
+        let a = NSAttributedString(string: "this is my life please 鸟🌾", attributes: p)
+        var atta = v.createAttibuteString(font: UIFont.systemFont(ofSize: 28), attribute: p) +
+        TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) + a
+        
+        let b = NSAttributedString(string: "this is my 鸟🌾", attributes: p)
+        var attb = v.createAttibuteString(font: UIFont.systemFont(ofSize: 28), attribute: p) +
+        TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) + b
+        
+        att = att + TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) + atta
+        att = att + TRSpacing(spacing: spacing).createAttibuteString(font: UIFont.systemFont(ofSize: 28),attribute: p) + attb
         return att
     }()
     override func viewDidLoad() {
@@ -46,8 +57,21 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
        
         // Do any additional setup after loading the view.
     }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return TRTextFrame(width: self.view.frame.width, string: self.attribute).size.height
+//    }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        self.table.reloadData()
+    }
 }
 
 class Cell:UITableViewCell{
     @IBOutlet var imageV:TRLabel!
+}
+
+public struct testDecoration:TRDecoration{
+    public var backgroundColor: CGColor?
+    public var borderColor: CGColor?
+    public var borderLineWidth: CGFloat?
 }
