@@ -5,6 +5,8 @@
 //  Created by FN-540 on 2024/3/18.
 //
 
+import Accelerate
+
 import UIKit
 
 let scale :CGFloat = 5
@@ -36,3 +38,5 @@ class TViewController: UIViewController {
         return att
     }()
 }
+
+

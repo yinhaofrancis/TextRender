@@ -92,6 +92,12 @@ public class TRTextImage:TRRunView<TRView<TRVectorImage>>{
         super.init(content: TRView(content: TRVectorImage(contentMode: contentMode, image: image)), font: font)
     }
 }
+public class TRPixelImage:TRRunView<TRView<TRImage>>{
+    public init(image:CGImage,font:UIFont,contentMode:TROfflineRender.ContentMode) {
+        
+        super.init(content: TRView(content: TRImage(image: image, contentMode: contentMode)), font: font)
+    }
+}
 
 public class TRTextTag:TRRunView<TRView<TRTextFrame>>{
     public var textFrame:TRTextFrame
