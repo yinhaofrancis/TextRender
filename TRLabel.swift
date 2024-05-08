@@ -17,9 +17,15 @@ public class TRLabel:UIControl{
     }
     private var cache:TRTextFrame?
     
-    public var renderMode:TROfflineRender.ContentMode = .center(1)
+    public var renderMode:TRContentMode = .center(1)
     
     private var render:TROfflineRender?
+    
+    public var scale:CGFloat?
+    
+    private var innerScale:CGFloat {
+        return self.scale ?? self.layer.contentsScale
+    }
     
     lazy var contentMaxWidth:CGFloat = self.bounds.width
     public override func layoutSubviews() {
@@ -37,7 +43,7 @@ public class TRLabel:UIControl{
             let tral = NSAttributedString(string: "……")
             let content = TRTextFrame(constaint: size, string: text, truncation: tral)
             self.cache = content
-            let scale = self.layer.contentsScale
+            let scale = self.innerScale
             let container = self.bounds
             let mode = self.renderMode
             self.render = try? TROfflineRender(width: Int(size.width), height: Int(size.height), scale: Int(scale))
@@ -45,7 +51,7 @@ public class TRLabel:UIControl{
                 let image = self.render?.draw { helper in
                     guard let l = content.render(scale: Int(scale)) else { return }
                     let itemframe = CGRect(origin: .zero, size: content.size)
-                    let target =  TROfflineRender.contentMode(itemFrame: itemframe, containerFrame: container, mode: mode)
+                    let target =  TROfflineRender.contentModeFrame(itemFrame: itemframe, containerFrame: container, mode: mode)
                     helper.context.draw(l, in: target, byTiling: false)
                 }
                 DispatchQueue.main.async {

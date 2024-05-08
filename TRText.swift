@@ -142,12 +142,12 @@ public struct TRLine{
 }
 
 public struct TRTextFrame:Hashable,TRContent{
-    public var contentMode: TROfflineRender.ContentMode = .center(1)
+    public var contentMode: TRContentMode = .center(1)
     
     public func render(frame: CGRect, render:TROfflineRender) {
-        guard let img = self.render(scale: render.scale) else { return }
-        let result = TROfflineRender.contentMode(itemFrame: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height), containerFrame: frame, mode: contentMode)
-        render.context.draw(img, in: result, byTiling: false)
+        guard let layer = self.render(off: render) else { return }
+        let result = TROfflineRender.contentModeFrame(itemFrame: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height), containerFrame: frame, mode: contentMode)
+        render.context.draw(layer, in: result)
     }
     
     
@@ -261,13 +261,22 @@ extension TRTextFrame{
         attr[NSAttributedString.Key(kCTRunDelegateAttributeName as String)] = run.runDelegate as Any
         return NSAttributedString(string: String(run.char),attributes:attr)
     }
+    private func renderOffline(off: TROfflineRender) {
+        self.draw(ctx: off.context)
+        for i in self.runDelegateRun{
+            i.runDelegate?.content.draw(frame: i.rect,render: off)
+        }
+    }
+    
     public func render(scale:Int)->CGImage?{
         let render = try? TROfflineRender(width: Int(self.size.width), height: Int(self.size.height), scale: scale)
         return render?.draw { off in
-            self.draw(ctx: off.context)
-            for i in self.runDelegateRun{
-                i.runDelegate?.content.draw(frame: i.rect,render: off)
-            }
+            renderOffline(off: off)
+        }
+    }
+    public func render(off:TROfflineRender)->CGLayer?{
+        return off.draw(size: self.size) { off in
+            renderOffline(off: off)
         }
     }
 }

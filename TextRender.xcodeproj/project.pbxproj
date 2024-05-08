@@ -10,7 +10,6 @@
 		0008F6992BDB4A500089B2A5 /* TRContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0008F6982BDB4A500089B2A5 /* TRContent.swift */; };
 		0008F69B2BDB50EE0089B2A5 /* TRRunDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0008F69A2BDB50EE0089B2A5 /* TRRunDelegate.swift */; };
 		000B5AB12BDA62ED00F8CFD9 /* TRRendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000B5AB02BDA62ED00F8CFD9 /* TRRendable.swift */; };
-		000B5AB32BDA6D3800F8CFD9 /* TRTextSpan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000B5AB22BDA6D3800F8CFD9 /* TRTextSpan.swift */; };
 		0011FDC22BDA333100D39681 /* iphone_portrait.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0011FDC12BDA333100D39681 /* iphone_portrait.pdf */; };
 		0011FDC42BDA33D800D39681 /* TRRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0011FDC32BDA33D800D39681 /* TRRender.swift */; };
 		0011FDC62BDA37A700D39681 /* avv.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0011FDC52BDA37A700D39681 /* avv.pdf */; };
@@ -31,7 +30,6 @@
 		0008F6982BDB4A500089B2A5 /* TRContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRContent.swift; sourceTree = "<group>"; };
 		0008F69A2BDB50EE0089B2A5 /* TRRunDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRRunDelegate.swift; sourceTree = "<group>"; };
 		000B5AB02BDA62ED00F8CFD9 /* TRRendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRRendable.swift; sourceTree = "<group>"; };
-		000B5AB22BDA6D3800F8CFD9 /* TRTextSpan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRTextSpan.swift; sourceTree = "<group>"; };
 		0011FDC12BDA333100D39681 /* iphone_portrait.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = iphone_portrait.pdf; sourceTree = "<group>"; };
 		0011FDC32BDA33D800D39681 /* TRRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRRender.swift; sourceTree = "<group>"; };
 		0011FDC52BDA37A700D39681 /* avv.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = avv.pdf; sourceTree = "<group>"; };
@@ -70,7 +68,6 @@
 				00CBC6672BA02C2200A67F82 /* TRText.swift */,
 				0008F69A2BDB50EE0089B2A5 /* TRRunDelegate.swift */,
 				0008F6982BDB4A500089B2A5 /* TRContent.swift */,
-				000B5AB22BDA6D3800F8CFD9 /* TRTextSpan.swift */,
 				0011FDC72BDA3FD300D39681 /* TRPDFImage.swift */,
 				00CBC6522BA02BFB00A67F82 /* TextRender */,
 				00CBC6512BA02BFB00A67F82 /* Products */,
@@ -185,7 +182,6 @@
 				00C51A5F2BA84CB20024EA3E /* TViewController.swift in Sources */,
 				0008F6992BDB4A500089B2A5 /* TRContent.swift in Sources */,
 				000B5AB12BDA62ED00F8CFD9 /* TRRendable.swift in Sources */,
-				000B5AB32BDA6D3800F8CFD9 /* TRTextSpan.swift in Sources */,
 				005E2DFA2BDB881200472FB5 /* TRLabel.swift in Sources */,
 				0008F69B2BDB50EE0089B2A5 /* TRRunDelegate.swift in Sources */,
 				0011FDC42BDA33D800D39681 /* TRRender.swift in Sources */,

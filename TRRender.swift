@@ -11,17 +11,35 @@ import CoreGraphics
 import UIKit
 
 
+/// cpu离线渲染
 public class TROfflineRender{
     public let width:Int
     public let height:Int
-    public let context:CGContext
+    public var context:CGContext{
+        layer?.context ?? origin
+    }
+    private var origin:CGContext
     public let scale:Int
-    public init(width: Int, height: Int,scale:Int,context:CGContext){
+    private(set) public var layer:CGLayer?
+    /// 创建离线渲染
+    /// - Parameters:
+    ///   - width: 宽
+    ///   - height: 高
+    ///   - scale: 缩放倍数
+    ///   - context: 上下文
+    ///   - layer: 图层
+    init(width: Int, height: Int,scale:Int,context:CGContext,layer:CGLayer?){
         self.width = width
         self.height = height
         self.scale = scale
-        self.context = context
+        self.origin = context
+        self.layer = layer
     }
+    /// 创建离线渲染
+    /// - Parameters:
+    ///   - width: 宽
+    ///   - height: 高
+    ///   - scale: 缩放倍数
     public init(width: Int, height: Int,scale:Int) throws {
         self.width = width
         self.height = height
@@ -29,11 +47,14 @@ public class TROfflineRender{
         guard let ctx = CGContext(data: nil, width: width * scale, height: height * scale, bitsPerComponent: 8, bytesPerRow: width * scale * 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue) else {
             throw NSError(domain: "create cgctx fail", code: 0)
         }
-        self.context = ctx
+        ctx.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))
+        self.origin = ctx
     }
     
+    /// 执行绘制
+    /// - Parameter call: 绘制回调
+    /// - Returns: 绘制的pixel image
     public func draw(call:(TROfflineRender)->Void)->CGImage?{
-        self.context.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))
         call(self)
         guard let rawimage = self.context.makeImage() else { return nil }
         guard let data = CFDataCreateMutable(kCFAllocatorDefault, 0) else { return rawimage }
@@ -44,23 +65,34 @@ public class TROfflineRender{
         return CGImageSourceCreateImageAtIndex(source, 0, nil) ?? rawimage
     }
     
-    public func layer(size:CGSize,call:(TROfflineRender)->Void)->CGLayer?{
-        guard let layer = CGLayer(self.context, size: size.applying(CGAffineTransform(scaleX: CGFloat(self.scale), y: CGFloat(self.scale))), auxiliaryInfo: nil) else { return nil }
-        guard let ctx = layer.context else { return nil }
-        do{
-            let render = try TROfflineRender(width: Int(size.width), height: Int(size.height), scale: self.scale)
-            layer.context?.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))
-            call(render)
-            return layer
-        }catch{
-            return nil
-        }
-        
+    public func draw(size:CGSize,call:(TROfflineRender)->Void)->CGLayer?{
+        let realSize = CGSize(width: size.width * CGFloat(self.scale), height: size.height * CGFloat(self.scale))
+        let layer = TROfflineRender(width: Int(realSize.width), height: Int(realSize.height), scale: self.scale, context: self.context, layer: CGLayer(self.context, size: realSize, auxiliaryInfo: nil))
+        layer.context.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))
+        call(layer)
+        return layer.layer
     }
 }
 
 
 // contentMode
+public enum TRContentMode{
+    case scaleToFill
+    case scaleAspectFit(CGFloat)
+    case scaleAspectFill
+    case center(CGFloat)
+    case top
+    case bottom
+    case left
+    case right
+    case topLeft
+    case topRight
+    case bottomLeft
+    case bottomRight
+    case percent(x:CGFloat,y:CGFloat,scaleX:CGFloat,scaleY:CGFloat)
+}
+
+
 
 extension TROfflineRender {
     fileprivate static func centerAndScale(percentX:CGFloat = 0.5,percentY:CGFloat = 0.5,containerFrame: CGRect, itemFrame: CGRect, ratioX: CGFloat,ratioY:CGFloat)->CGAffineTransform {
@@ -69,23 +101,7 @@ extension TROfflineRender {
         return CGAffineTransformMakeTranslation(deltaX, deltaY).scaledBy(x: ratioX, y: ratioY)
     }
     
-    public enum ContentMode{
-        case scaleToFill
-        case scaleAspectFit(CGFloat)
-        case scaleAspectFill
-        case center(CGFloat)
-        case top
-        case bottom
-        case left
-        case right
-        case topLeft
-        case topRight
-        case bottomLeft
-        case bottomRight
-        case percent(x:CGFloat,y:CGFloat,scaleX:CGFloat,scaleY:CGFloat)
-    }
-    
-    public static func contentMode(itemFrame:CGRect,containerFrame:CGRect,mode:ContentMode)->CGRect{
+    public static func contentModeFrame(itemFrame:CGRect,containerFrame:CGRect,mode:TRContentMode)->CGRect{
         switch(mode){
         case .scaleToFill:
             return self.scaleToFill(itemFrame: itemFrame, containerFrame: containerFrame)

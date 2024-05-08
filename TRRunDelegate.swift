@@ -14,6 +14,7 @@ public protocol TRRunDelegate {
     
     associatedtype R:TRRenderable
     
+    /// Character as placehold
     var char:Character { get }
     
     var descent:CGFloat { get }
@@ -66,11 +67,6 @@ public protocol TRFrameRunDelegate:TRRunDelegate{
     
     func loadFrame(frame:CGRect,percent:CGFloat)
 }
-
-public protocol TRFontRunDelegate:TRRunDelegate{
-    
-}
-
 
 
 func + (left:NSAttributedString,right:NSAttributedString)->NSAttributedString{
