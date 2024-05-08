@@ -19,24 +19,30 @@ class TViewController: UIViewController {
         super.viewDidLoad()
         self.imageV.text = attribute
         imageV.scale = 4
+        self.imageV.text = attribute
     }
+    
+    var text:String = "更多"
+    var image:URL = Bundle.main.url(forResource: "more", withExtension: "pdf")!
     lazy var attribute:NSAttributedString = {
-        let param = NSMutableParagraphStyle()
-        param.minimumLineHeight = 8
-        let p:[NSAttributedString.Key:Any] = [
-            .font:UIFont.systemFont(ofSize: 28),
-            .foregroundColor:UIColor.black,
-            .paragraphStyle : param,
-        ]
-        let image = try! TRPDFImageSet(url: Bundle.main.url(forResource: "avv", withExtension:"pdf")!)[1]
-        let timg = TRTextImage(image: image!, font: UIFont.systemFont(ofSize: 28), contentMode: .scaleAspectFit(0.5))
-        let offset:CGFloat = 0.5
-        let v = TRTextTag(string: NSAttributedString(string: "abc吧擦擦爸爸的吧", attributes: [.font:UIFont.systemFont(ofSize: 12),.foregroundColor:UIColor.orange]), font: UIFont.systemFont(ofSize: 28), width: 129)
-        var att = v.createAttibuteString(attribute: p) +
-        TRSpacing(font: UIFont.systemFont(ofSize: 28), size: 70).createAttibuteString(attribute: p) +
-        timg.createAttibuteString(attribute: p) +
-        NSAttributedString(string: "this is my life please", attributes: p)
-        return att
+        let tx = try! TRPDFImageSet(url: image)
+        var param:NSMutableParagraphStyle = NSMutableParagraphStyle()
+        param.alignment = .center
+        
+        let rb = TRRuby(string: "he", alignment: .center, verhang: .auto, factor: 0.5)
+        
+        let image = TRTextImage(image: tx[1]!, font: UIFont.systemFont(ofSize: 36), contentMode: .scaleAspectFit(0.5))
+        image.content.content.tintColor = UIColor.red.cgColor
+        let aimag = image.createAttibuteString(attribute: [.paragraphStyle:param])
+        let text = NSAttributedString(string: "\n" + text, attributes: [
+            .paragraphStyle:param,
+            .font:UIFont.systemFont(ofSize: 16, weight: .semibold),
+            .rubyAnnotation:rb.ruby
+        ])
+        let a = NSMutableAttributedString()
+        a.append(aimag)
+        a.append(text)
+        return a
     }()
 }
 

@@ -17,6 +17,13 @@
 		005319F32BDE507E007B8C60 /* DINPRO-BOLD.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 005319F22BDE5021007B8C60 /* DINPRO-BOLD.OTF */; };
 		005319F52BDE5289007B8C60 /* avd.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 005319F42BDE5289007B8C60 /* avd.pdf */; };
 		005E2DFA2BDB881200472FB5 /* TRLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005E2DF92BDB881200472FB5 /* TRLabel.swift */; };
+		00BE5AC92BEB6057007361C2 /* emoji.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC32BEB6056007361C2 /* emoji.pdf */; };
+		00BE5ACA2BEB6057007361C2 /* more.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC42BEB6056007361C2 /* more.pdf */; };
+		00BE5ACB2BEB6057007361C2 /* mic.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC52BEB6056007361C2 /* mic.pdf */; };
+		00BE5ACC2BEB6057007361C2 /* msg.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC62BEB6056007361C2 /* msg.pdf */; };
+		00BE5ACD2BEB6057007361C2 /* list.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC72BEB6056007361C2 /* list.pdf */; };
+		00BE5ACE2BEB6057007361C2 /* gift.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC82BEB6056007361C2 /* gift.pdf */; };
+		00BE5AD02BEB666A007361C2 /* TRRuby.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE5ACF2BEB666A007361C2 /* TRRuby.swift */; };
 		00C51A5F2BA84CB20024EA3E /* TViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C51A5E2BA84CB20024EA3E /* TViewController.swift */; };
 		00CBC6542BA02BFB00A67F82 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CBC6532BA02BFB00A67F82 /* AppDelegate.swift */; };
 		00CBC6582BA02BFB00A67F82 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CBC6572BA02BFB00A67F82 /* ViewController.swift */; };
@@ -37,6 +44,13 @@
 		005319F22BDE5021007B8C60 /* DINPRO-BOLD.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPRO-BOLD.OTF"; sourceTree = "<group>"; };
 		005319F42BDE5289007B8C60 /* avd.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = avd.pdf; sourceTree = "<group>"; };
 		005E2DF92BDB881200472FB5 /* TRLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRLabel.swift; sourceTree = "<group>"; };
+		00BE5AC32BEB6056007361C2 /* emoji.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = emoji.pdf; sourceTree = "<group>"; };
+		00BE5AC42BEB6056007361C2 /* more.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = more.pdf; sourceTree = "<group>"; };
+		00BE5AC52BEB6056007361C2 /* mic.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = mic.pdf; sourceTree = "<group>"; };
+		00BE5AC62BEB6056007361C2 /* msg.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = msg.pdf; sourceTree = "<group>"; };
+		00BE5AC72BEB6056007361C2 /* list.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = list.pdf; sourceTree = "<group>"; };
+		00BE5AC82BEB6056007361C2 /* gift.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = gift.pdf; sourceTree = "<group>"; };
+		00BE5ACF2BEB666A007361C2 /* TRRuby.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRRuby.swift; sourceTree = "<group>"; };
 		00C51A5E2BA84CB20024EA3E /* TViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TViewController.swift; sourceTree = "<group>"; };
 		00CBC6502BA02BFB00A67F82 /* TextRender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextRender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00CBC6532BA02BFB00A67F82 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +80,7 @@
 				000B5AB02BDA62ED00F8CFD9 /* TRRendable.swift */,
 				0011FDC32BDA33D800D39681 /* TRRender.swift */,
 				00CBC6672BA02C2200A67F82 /* TRText.swift */,
+				00BE5ACF2BEB666A007361C2 /* TRRuby.swift */,
 				0008F69A2BDB50EE0089B2A5 /* TRRunDelegate.swift */,
 				0008F6982BDB4A500089B2A5 /* TRContent.swift */,
 				0011FDC72BDA3FD300D39681 /* TRPDFImage.swift */,
@@ -95,6 +110,12 @@
 				005319F22BDE5021007B8C60 /* DINPRO-BOLD.OTF */,
 				0011FDC52BDA37A700D39681 /* avv.pdf */,
 				005319F42BDE5289007B8C60 /* avd.pdf */,
+				00BE5AC52BEB6056007361C2 /* mic.pdf */,
+				00BE5AC32BEB6056007361C2 /* emoji.pdf */,
+				00BE5AC42BEB6056007361C2 /* more.pdf */,
+				00BE5AC72BEB6056007361C2 /* list.pdf */,
+				00BE5AC62BEB6056007361C2 /* msg.pdf */,
+				00BE5AC82BEB6056007361C2 /* gift.pdf */,
 				0011FDC12BDA333100D39681 /* iphone_portrait.pdf */,
 			);
 			path = TextRender;
@@ -158,11 +179,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00BE5ACA2BEB6057007361C2 /* more.pdf in Resources */,
 				00CBC6602BA02BFC00A67F82 /* LaunchScreen.storyboard in Resources */,
 				00CBC65D2BA02BFC00A67F82 /* Assets.xcassets in Resources */,
 				005319F52BDE5289007B8C60 /* avd.pdf in Resources */,
+				00BE5AC92BEB6057007361C2 /* emoji.pdf in Resources */,
+				00BE5ACB2BEB6057007361C2 /* mic.pdf in Resources */,
 				0011FDC62BDA37A700D39681 /* avv.pdf in Resources */,
+				00BE5ACC2BEB6057007361C2 /* msg.pdf in Resources */,
+				00BE5ACE2BEB6057007361C2 /* gift.pdf in Resources */,
 				0011FDC22BDA333100D39681 /* iphone_portrait.pdf in Resources */,
+				00BE5ACD2BEB6057007361C2 /* list.pdf in Resources */,
 				005319F32BDE507E007B8C60 /* DINPRO-BOLD.OTF in Resources */,
 				00CBC65B2BA02BFB00A67F82 /* Main.storyboard in Resources */,
 			);
@@ -183,6 +210,7 @@
 				0008F6992BDB4A500089B2A5 /* TRContent.swift in Sources */,
 				000B5AB12BDA62ED00F8CFD9 /* TRRendable.swift in Sources */,
 				005E2DFA2BDB881200472FB5 /* TRLabel.swift in Sources */,
+				00BE5AD02BEB666A007361C2 /* TRRuby.swift in Sources */,
 				0008F69B2BDB50EE0089B2A5 /* TRRunDelegate.swift in Sources */,
 				0011FDC42BDA33D800D39681 /* TRRender.swift in Sources */,
 			);
