@@ -10,7 +10,7 @@ import UIKit
 
 
 public class TRLabel:UIControl{
-    public var text:NSAttributedString?{
+    public var content:NSAttributedString?{
         didSet{
             self.setNeedsLayout()
         }
@@ -37,7 +37,7 @@ public class TRLabel:UIControl{
             self.invalidateIntrinsicContentSize()
             self.setNeedsUpdateConstraints()
             self.setNeedsLayout()
-        }else if let text = self.text{
+        }else if let text = self.content{
             
             self.layer.contentsScale = 3
             let tral = NSAttributedString(string: "……")
@@ -68,7 +68,7 @@ public class TRLabel:UIControl{
     }
 
     public override var intrinsicContentSize: CGSize{
-        guard let text = self.text else { return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric) }
+        guard let text = self.content else { return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric) }
         let content = TRTextFrame(width: self.contentMaxWidth, string: text)
         return content.size
     }

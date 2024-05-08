@@ -62,13 +62,18 @@ public struct TRImage:TRContent{
     
     public var tintColor:CGColor?
     
+    public var center:CGRect?
+    
     public var contentMode: TRContentMode
     
     public init(image: CGImage, contentMode: TRContentMode) {
         self.image = image
         self.contentMode = contentMode
     }
-    
+    func drawImageContent(frame:CGRect,render:TROfflineRender){
+        render.context.draw(image, in: frame, byTiling: false)
+        
+    }
     public func render(frame: CGRect,render:TROfflineRender) {
         let frame = TROfflineRender.contentModeFrame(itemFrame: CGRect(x: 0, y: 0, width: image.width, height: image.height), containerFrame: frame, mode: contentMode)
         
@@ -82,9 +87,67 @@ public struct TRImage:TRContent{
             render.context.draw(image, in: frame, byTiling: false)
             render.context.endTransparencyLayer()
         }else{
-            render.context.draw(image, in: frame, byTiling: false)
+            self.drawImageContent(frame: frame, render: render)
         }
         render.context.restoreGState()
+    }
+}
+
+public class TRPattern{
+    var patternCallback:CGPatternCallbacks = CGPatternCallbacks(version: 1) { i, ctx in
+        let tr = Unmanaged<TRPattern>.fromOpaque(i!).takeUnretainedValue()
+        tr.draw(ctx: ctx)
+    } releaseInfo: { release in
+        Unmanaged<TRPattern>.fromOpaque(release!).release()
+    }
+    var bound:CGRect
+    var matrix:CGAffineTransform = .identity
+    var xStep:CGFloat = 44
+    var yStep:CGFloat = 44
+    var tiling:CGPatternTiling = .constantSpacingMinimalDistortion
+    var isColored:Bool
+    
+    var callback:(TRPattern,CGContext)->Void
+    public init(bound:CGRect,xStep:CGFloat? = nil,yStep:CGFloat? = nil,draw:@escaping (TRPattern,CGContext)->Void){
+        self.bound = bound
+        self.callback = draw
+        self.xStep = xStep ?? bound.width
+        self.yStep = yStep ?? bound.height
+        self.isColored = false
+    }
+    public var pattern:CGPattern?{
+        let p = Unmanaged<TRPattern>.passRetained(self)
+        return CGPattern(info: p.toOpaque(), bounds: bound, matrix: matrix, xStep: xStep, yStep: yStep, tiling: tiling, isColored: isColored, callbacks: &self.patternCallback)
+    }
+    private func draw(ctx:CGContext){
+        self.callback(self,ctx)
+    }
+    public func setFillColorPattern(render:TROfflineRender,alpha:CGFloat){
+        guard let cs = CGColorSpace(patternBaseSpace: nil) else { return }
+        render.context.setFillColorSpace(cs)
+        guard let pattern  else { return  }
+        render.context.setFillPattern(pattern, colorComponents: [alpha])
+    }
+    
+    public func setStrokeColorPattern(render:TROfflineRender,alpha:CGFloat){
+        guard let cs = CGColorSpace(patternBaseSpace: nil) else { return }
+        render.context.setStrokeColorSpace(cs)
+        guard let pattern  else { return  }
+        render.context.setStrokePattern(pattern, colorComponents: [alpha])
+    }
+    
+    public func setFillMaskPattern(render:TROfflineRender,color:CGColor){
+        guard let cs = CGColorSpace(patternBaseSpace: color.colorSpace) else { return }
+        render.context.setFillColorSpace(cs)
+        guard let pattern  else { return  }
+        render.context.setFillPattern(pattern, colorComponents: color.components ?? [1,1,1,1])
+    }
+    
+    public func setStrokeMaskPattern(render:TROfflineRender,color:CGColor){
+        guard let cs = CGColorSpace(patternBaseSpace: color.colorSpace) else { return }
+        render.context.setStrokeColorSpace(cs)
+        guard let pattern  else { return  }
+        render.context.setStrokePattern(pattern, colorComponents:color.components ?? [1,1,1,1])
     }
 }
 

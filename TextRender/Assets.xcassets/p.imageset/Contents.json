@@ -11,6 +11,20 @@
     {
       "filename" : "截屏2024-04-08 17.06.15.png",
       "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "bottom" : 42,
+          "left" : 60,
+          "right" : 33,
+          "top" : 36
+        },
+        "center" : {
+          "height" : 1,
+          "mode" : "tile",
+          "width" : 1
+        },
+        "mode" : "9-part"
+      },
       "scale" : "3x"
     }
   ],
