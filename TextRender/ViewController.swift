@@ -66,5 +66,5 @@
 //}
 //
 //class Cell:UITableViewCell{
-//    @IBOutlet var imageV:TRLabel!
+//    @IBOutlet var imageV:TRView!
 //}

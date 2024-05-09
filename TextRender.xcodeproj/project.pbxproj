@@ -16,7 +16,7 @@
 		0011FDC82BDA3FD300D39681 /* TRPDFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0011FDC72BDA3FD300D39681 /* TRPDFImage.swift */; };
 		005319F32BDE507E007B8C60 /* DINPRO-BOLD.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 005319F22BDE5021007B8C60 /* DINPRO-BOLD.OTF */; };
 		005319F52BDE5289007B8C60 /* avd.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 005319F42BDE5289007B8C60 /* avd.pdf */; };
-		005E2DFA2BDB881200472FB5 /* TRLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005E2DF92BDB881200472FB5 /* TRLabel.swift */; };
+		005E2DFA2BDB881200472FB5 /* TRUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005E2DF92BDB881200472FB5 /* TRUIView.swift */; };
 		00BE5AC92BEB6057007361C2 /* emoji.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC32BEB6056007361C2 /* emoji.pdf */; };
 		00BE5ACA2BEB6057007361C2 /* more.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC42BEB6056007361C2 /* more.pdf */; };
 		00BE5ACB2BEB6057007361C2 /* mic.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC52BEB6056007361C2 /* mic.pdf */; };
@@ -43,7 +43,7 @@
 		0011FDC72BDA3FD300D39681 /* TRPDFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRPDFImage.swift; sourceTree = "<group>"; };
 		005319F22BDE5021007B8C60 /* DINPRO-BOLD.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPRO-BOLD.OTF"; sourceTree = "<group>"; };
 		005319F42BDE5289007B8C60 /* avd.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = avd.pdf; sourceTree = "<group>"; };
-		005E2DF92BDB881200472FB5 /* TRLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRLabel.swift; sourceTree = "<group>"; };
+		005E2DF92BDB881200472FB5 /* TRUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRUIView.swift; sourceTree = "<group>"; };
 		00BE5AC32BEB6056007361C2 /* emoji.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = emoji.pdf; sourceTree = "<group>"; };
 		00BE5AC42BEB6056007361C2 /* more.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = more.pdf; sourceTree = "<group>"; };
 		00BE5AC52BEB6056007361C2 /* mic.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = mic.pdf; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		00CBC6472BA02BFB00A67F82 = {
 			isa = PBXGroup;
 			children = (
-				005E2DF92BDB881200472FB5 /* TRLabel.swift */,
+				005E2DF92BDB881200472FB5 /* TRUIView.swift */,
 				000B5AB02BDA62ED00F8CFD9 /* TRRendable.swift */,
 				0011FDC32BDA33D800D39681 /* TRRender.swift */,
 				00CBC6672BA02C2200A67F82 /* TRText.swift */,
@@ -209,7 +209,7 @@
 				00C51A5F2BA84CB20024EA3E /* TViewController.swift in Sources */,
 				0008F6992BDB4A500089B2A5 /* TRContent.swift in Sources */,
 				000B5AB12BDA62ED00F8CFD9 /* TRRendable.swift in Sources */,
-				005E2DFA2BDB881200472FB5 /* TRLabel.swift in Sources */,
+				005E2DFA2BDB881200472FB5 /* TRUIView.swift in Sources */,
 				00BE5AD02BEB666A007361C2 /* TRRuby.swift in Sources */,
 				0008F69B2BDB50EE0089B2A5 /* TRRunDelegate.swift in Sources */,
 				0011FDC42BDA33D800D39681 /* TRRender.swift in Sources */,

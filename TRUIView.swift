@@ -7,13 +7,59 @@
 
 import UIKit
 
+public struct TRUIViewProperty:Hashable{
+    public var content:NSAttributedString?
+    public var selectedContent:NSAttributedString?
+    public var hightlightContent:NSAttributedString?
+    public var disableContent:NSAttributedString?
+    public var contentMaxWidth:CGFloat
+}
 
-
-public class TRLabel:UIControl{
-    public var content:NSAttributedString?{
+public class TRUIView:UIControl{
+    public var property:TRUIViewProperty = TRUIViewProperty(contentMaxWidth: 300){
         didSet{
             self.setNeedsLayout()
         }
+    }
+    public override var isSelected: Bool{
+        set{
+            super.isSelected = newValue
+            self.setNeedsLayout()
+        }
+        get{
+            return super.isSelected
+        }
+    }
+    public override var isEnabled: Bool{
+        set{
+            super.isEnabled = newValue
+            self.setNeedsLayout()
+        }
+        get{
+            super.isEnabled
+        }
+    }
+    public override var isHighlighted: Bool{
+        get{
+            super.isHighlighted
+        }
+        set{
+            super.isHighlighted = newValue
+            self.setNeedsLayout()
+        }
+    }
+    
+    private var displayContent:NSAttributedString?{
+        if(!self.isEnabled){
+            return self.property.disableContent ?? self.property.content
+        }
+        if(self.isHighlighted){
+            return self.property.hightlightContent ?? self.property.selectedContent ?? self.property.content
+        }
+        if(self.isSelected){
+            return self.property.selectedContent ?? self.property.content
+        }
+        return self.property.content
     }
     private var cache:TRTextFrame?
     
@@ -37,7 +83,7 @@ public class TRLabel:UIControl{
             self.invalidateIntrinsicContentSize()
             self.setNeedsUpdateConstraints()
             self.setNeedsLayout()
-        }else if let text = self.content{
+        }else if let text = self.displayContent{
             
             self.layer.contentsScale = 3
             let tral = NSAttributedString(string: "……")
@@ -68,7 +114,7 @@ public class TRLabel:UIControl{
     }
 
     public override var intrinsicContentSize: CGSize{
-        guard let text = self.content else { return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric) }
+        guard let text = self.displayContent else { return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric) }
         let content = TRTextFrame(width: self.contentMaxWidth, string: text)
         return content.size
     }
