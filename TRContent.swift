@@ -92,6 +92,7 @@ public struct TRImage:TRContent{
         
         render.context.saveGState()
         
+        
         if let color = self.tintColor {
             render.context.setFillColor(color)
             render.context.fill([frame])

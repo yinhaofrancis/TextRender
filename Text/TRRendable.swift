@@ -9,55 +9,6 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-
-public protocol TRRenderFrame{
-
-    var frame:CGRect { get }
-}
-
-public protocol TRContent{
-    
-    var contentMode:TRContentMode { get }
-    
-    func render(frame:CGRect,render:TROfflineRender)
-}
-
-public protocol TRRenderable:TRRenderFrame{
-    
-    associatedtype T:TRContent
-    
-    var content:T { get }
-
-}
-extension TRRenderable{
-    public func draw(render:TROfflineRender){
-        self.draw(frame: self.frame, render: render)
-    }
-    public func draw(frame:CGRect, render:TROfflineRender){
-        content.render(frame: frame, render: render)
-    }
-}
-
-public struct TRView<T:TRContent>:TRRenderable,TRContent{
-    
-    public var contentMode: TRContentMode = .center(1)
-    
-    public func render(frame: CGRect, render: TROfflineRender) {
-        let frame = TROfflineRender.contentModeFrame(itemFrame: self.frame, containerFrame: frame, mode: contentMode)
-        self.draw(frame: frame, render: render)
-    }
-    
-    public var content: T
-    
-    public var frame: CGRect
-    
-    public init(content: T, frame: CGRect = .zero) {
-        self.content = content
-        self.frame = frame
-    }
-    
-}
-
 /// 行内元素
 public class TRRunView<T:TRRenderable>:TRRunDelegate{
     

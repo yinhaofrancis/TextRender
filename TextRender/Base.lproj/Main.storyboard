@@ -16,22 +16,9 @@
                     <view key="view" contentMode="scaleToFill" id="9fv-iL-TbJ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Nk-3W-DGS" customClass="TRUIView" customModule="TextRender" customModuleProvider="target">
-                                <rect key="frame" x="52" y="292" width="240" height="128"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="yAm-3H-HY0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="5Nk-3W-DGS" firstAttribute="centerY" secondItem="9fv-iL-TbJ" secondAttribute="centerY" id="8Dp-lc-ARH"/>
-                            <constraint firstItem="5Nk-3W-DGS" firstAttribute="centerX" secondItem="9fv-iL-TbJ" secondAttribute="centerX" id="vhW-i0-I1K"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="vv" destination="5Nk-3W-DGS" id="rls-Ta-80k"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ncj-BP-JCD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

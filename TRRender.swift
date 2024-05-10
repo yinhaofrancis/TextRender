@@ -222,5 +222,3 @@ func +(_ p1:CGPoint,_ p2:CGPoint)->CGPoint{
 func -(_ p1:CGPoint,_ p2:CGPoint)->CGPoint{
     return CGPoint(x: p1.x - p2.x, y: p1.y - p2.y)
 }
-
-
