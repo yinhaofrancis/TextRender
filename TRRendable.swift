@@ -38,7 +38,14 @@ extension TRRenderable{
     }
 }
 
-public struct TRView<T:TRContent>:TRRenderable{
+public struct TRView<T:TRContent>:TRRenderable,TRContent{
+    
+    public var contentMode: TRContentMode = .center(1)
+    
+    public func render(frame: CGRect, render: TROfflineRender) {
+        self.draw(frame: frame, render: render)
+    }
+    
     public var content: T
     
     public var frame: CGRect

@@ -23,7 +23,7 @@ extension CGColor:TRContent{
         render.context.restoreGState()
     }
     
-    public static func percent(c1:CGColor,c2:CGColor,factor:CGFloat = 0.5)->CGColor?{
+    public static func mix(c1:CGColor,c2:CGColor,factor:CGFloat = 0.5)->CGColor?{
         guard let cc1 = c1.components , let cc2 = c2.components else { return nil }
         if(cc1.count == cc2.count){
             let c = (0 ..< cc1.count).map { i in

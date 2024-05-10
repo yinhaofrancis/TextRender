@@ -9,56 +9,15 @@ import UIKit
 
 public struct TRUIViewProperty:Hashable{
     public var content:NSAttributedString?
-    public var selectedContent:NSAttributedString?
-    public var hightlightContent:NSAttributedString?
-    public var disableContent:NSAttributedString?
-    public var contentMaxWidth:CGFloat
 }
 
-public class TRUIView:UIControl{
-    public var property:TRUIViewProperty = TRUIViewProperty(contentMaxWidth: 300){
+public class TRUIView:UIView{
+    public var property:TRUIViewProperty = TRUIViewProperty(){
         didSet{
             self.setNeedsLayout()
         }
     }
-    public override var isSelected: Bool{
-        set{
-            super.isSelected = newValue
-            self.setNeedsLayout()
-        }
-        get{
-            return super.isSelected
-        }
-    }
-    public override var isEnabled: Bool{
-        set{
-            super.isEnabled = newValue
-            self.setNeedsLayout()
-        }
-        get{
-            super.isEnabled
-        }
-    }
-    public override var isHighlighted: Bool{
-        get{
-            super.isHighlighted
-        }
-        set{
-            super.isHighlighted = newValue
-            self.setNeedsLayout()
-        }
-    }
-    
     private var displayContent:NSAttributedString?{
-        if(!self.isEnabled){
-            return self.property.disableContent ?? self.property.content
-        }
-        if(self.isHighlighted){
-            return self.property.hightlightContent ?? self.property.selectedContent ?? self.property.content
-        }
-        if(self.isSelected){
-            return self.property.selectedContent ?? self.property.content
-        }
         return self.property.content
     }
     private var cache:TRTextFrame?
@@ -73,13 +32,13 @@ public class TRUIView:UIControl{
         return self.scale ?? self.layer.contentsScale
     }
     
-    lazy var contentMaxWidth:CGFloat = self.bounds.width
+    var contentMaxWidth:CGFloat{
+        self.self.bounds.width
+    }
     public override func layoutSubviews() {
         super.layoutSubviews()
-        self.addTarget(self, action: #selector(hit(sender:event:)), for: .touchUpInside)
         let size = self.bounds.size
         if(Int(size.width) != Int(self.contentMaxWidth)){
-            self.contentMaxWidth = size.width
             self.invalidateIntrinsicContentSize()
             self.setNeedsUpdateConstraints()
             self.setNeedsLayout()
@@ -118,10 +77,5 @@ public class TRUIView:UIControl{
         let content = TRTextFrame(width: self.contentMaxWidth, string: text)
         return content.size
     }
-    @objc func hit(sender:Any,event:UIEvent){
-        guard let point = event.allTouches?.first?.location(in: self) else { return }
-        guard let render = self.render else { return }
-        guard let r = self.cache?.hitIndex(leftCoodiPoint: point, render: render) else { return }
-        guard let range = r.1?[r.0]?.range else { return }
-    }
 }
+
