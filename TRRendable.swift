@@ -43,6 +43,7 @@ public struct TRView<T:TRContent>:TRRenderable,TRContent{
     public var contentMode: TRContentMode = .center(1)
     
     public func render(frame: CGRect, render: TROfflineRender) {
+        let frame = TROfflineRender.contentModeFrame(itemFrame: self.frame, containerFrame: frame, mode: contentMode)
         self.draw(frame: frame, render: render)
     }
     
