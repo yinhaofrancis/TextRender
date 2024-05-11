@@ -10,3 +10,16 @@ import UIKit
 public protocol Drawable{
     func draw(render:TROfflineRender)
 }
+
+public protocol Element{
+    var frame:CGRect { get }
+}
+extension Element{
+    public func enterElement(render:TROfflineRender){
+        
+    }
+    
+    public func leaveElement(render:TROfflineRender){
+        
+    }
+}

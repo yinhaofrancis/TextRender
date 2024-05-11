@@ -37,10 +37,29 @@ class TViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let r = try! TROfflineRender(width: Int(self.view.bounds.width), height: Int(self.view.bounds.height), scale: 3)
-        
+//        r.toScreenCoodinate()
+        r.screenCoodinate = false
+//        r.screenCoodinate = false
         let img = TRView(content: TRImage(image: UIImage.k.cgImage!, contentMode: .scaleAspectFit(0.5)), frame: CGRect(x: 50, y: 50, width: 100, height: 200))
+        
+        
+        let vimg = TRView(content: TRImage(image: UIImage.k.cgImage!, contentMode: .scaleAspectFit(0.5)), frame: CGRect(x: 50, y: 50, width: 100, height: 200))
+        let pv = try! TRPDFImageSet(url: Bundle.main.url(forResource: "gift", withExtension: "pdf")!)[1]!
+        let v = TRView(content: TRVectorImage(contentMode: .scaleAspectFit(0.5), image:pv), frame: CGRect(x: 10, y: 10, width: 60, height: 60))
+        
+
+        let node = ContainerSpan(maxWidth: 96, font: UIFont.systemFont(ofSize: 44, weight: .bold)) {
+            ImageSpan(image: UIImage.k.cgImage!, font: UIFont.systemFont(ofSize: 14), mode: .scaleAspectFit(0.5))
+            SpacingSpan(size: 10, font: UIFont.systemFont(ofSize: 10))
+            TextSpan(string: "tetst", font: UIFont.systemFont(ofSize: 14), textColor: UIColor.red)
+        }
+        
+        let ttt = TRView(content: TRTextFrame(width: 96, string: node.attributeString), frame: CGRect(x: 180, y: 90, width: 96, height: 80))
+        
         let a = r.draw { t in
             img.draw(render: t)
+            v.draw(render: t)
+            ttt.draw(render: t)
         }
         self.view.layer.contents = a
     }

@@ -64,10 +64,28 @@ public class TROfflineRender{
         guard let source = CGImageSourceCreateWithData(data, nil) else { return rawimage }
         return CGImageSourceCreateImageAtIndex(source, 0, nil) ?? rawimage
     }
-    
+
+    var screenTransform:CGAffineTransform {
+        CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -CGFloat(self.height))
+    }
+    var mathTransform:CGAffineTransform {
+        CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -CGFloat(self.height)).inverted()
+    }
+    public var screenCoodinate:Bool = false{
+        didSet{
+            if oldValue != screenCoodinate{
+                if(screenCoodinate == true){
+                    self.context.concatenate(screenTransform)
+                }else{
+                    self.context.concatenate(mathTransform)
+                }
+            }
+        }
+    }
     public func draw(size:CGSize,call:(TROfflineRender)->Void)->CGLayer?{
         let realSize = CGSize(width: size.width * CGFloat(self.scale), height: size.height * CGFloat(self.scale))
         let layer = TROfflineRender(width: Int(realSize.width), height: Int(realSize.height), scale: self.scale, context: self.context, layer: CGLayer(self.context, size: realSize, auxiliaryInfo: nil))
+        layer.screenCoodinate = self.screenCoodinate
         layer.context.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))
         call(layer)
         return layer.layer

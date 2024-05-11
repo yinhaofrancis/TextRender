@@ -262,7 +262,10 @@ extension TRTextFrame{
         return NSAttributedString(string: String(run.char),attributes:attr)
     }
     private func renderOffline(off: TROfflineRender) {
+        off.context.saveGState()
+        off.screenCoodinate = false
         self.draw(ctx: off.context)
+        off.context.restoreGState()
         for i in self.runDelegateRun{
             i.runDelegate?.content.draw(frame: i.rect,render: off)
         }
