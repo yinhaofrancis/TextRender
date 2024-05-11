@@ -271,8 +271,8 @@ extension TRTextFrame{
         }
     }
     
-    public func render(scale:Int)->CGImage?{
-        let render = try? TROfflineRender(width: Int(self.size.width), height: Int(self.size.height), scale: scale)
+    public func render(scale:CGFloat)->CGImage?{
+        let render = try? TROfflineRender(width: self.size.width, height: self.size.height, scale: scale)
         return render?.draw { off in
             renderOffline(off: off)
         }

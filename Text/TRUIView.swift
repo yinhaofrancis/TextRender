@@ -51,10 +51,10 @@ public class TRUIView:UIView{
             let scale = self.innerScale
             let container = self.bounds
             let mode = self.renderMode
-            self.render = try? TROfflineRender(width: Int(size.width), height: Int(size.height), scale: Int(scale))
+            self.render = try? TROfflineRender(width: size.width, height: size.height, scale: scale)
             DispatchQueue.global().async {
                 let image = self.render?.draw { helper in
-                    guard let l = content.render(scale: Int(scale)) else { return }
+                    guard let l = content.render(scale: scale) else { return }
                     let itemframe = CGRect(origin: .zero, size: content.size)
                     let target =  TROfflineRender.contentModeFrame(itemFrame: itemframe, containerFrame: container, mode: mode)
                     helper.context.draw(l, in: target, byTiling: false)

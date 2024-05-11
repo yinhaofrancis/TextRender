@@ -13,13 +13,13 @@ import UIKit
 
 /// cpu离线渲染
 public class TROfflineRender{
-    public let width:Int
-    public let height:Int
+    public let width:CGFloat
+    public let height:CGFloat
     public var context:CGContext{
         layer?.context ?? origin
     }
     private var origin:CGContext
-    public let scale:Int
+    public let scale:CGFloat
     private(set) public var layer:CGLayer?
     /// 创建离线渲染
     /// - Parameters:
@@ -28,7 +28,7 @@ public class TROfflineRender{
     ///   - scale: 缩放倍数
     ///   - context: 上下文
     ///   - layer: 图层
-    init(width: Int, height: Int,scale:Int,context:CGContext,layer:CGLayer?){
+    init(width: CGFloat, height: CGFloat,scale:CGFloat,context:CGContext,layer:CGLayer?){
         self.width = width
         self.height = height
         self.scale = scale
@@ -40,14 +40,14 @@ public class TROfflineRender{
     ///   - width: 宽
     ///   - height: 高
     ///   - scale: 缩放倍数
-    public init(width: Int, height: Int,scale:Int) throws {
+    public init(width: CGFloat, height: CGFloat,scale:CGFloat) throws {
         self.width = width
         self.height = height
         self.scale = scale
-        guard let ctx = CGContext(data: nil, width: width * scale, height: height * scale, bitsPerComponent: 8, bytesPerRow: width * scale * 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue) else {
+        guard let ctx = CGContext(data: nil, width: Int(ceil(width * scale)), height: Int(ceil(height * scale)), bitsPerComponent: 8, bytesPerRow: Int(ceil(width * scale * 4)), space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue) else {
             throw NSError(domain: "create cgctx fail", code: 0)
         }
-        ctx.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))
+        ctx.scaleBy(x: self.scale, y: self.scale)
         self.origin = ctx
     }
     
@@ -84,7 +84,7 @@ public class TROfflineRender{
     }
     public func draw(size:CGSize,call:(TROfflineRender)->Void)->CGLayer?{
         let realSize = CGSize(width: size.width * CGFloat(self.scale), height: size.height * CGFloat(self.scale))
-        let layer = TROfflineRender(width: Int(realSize.width), height: Int(realSize.height), scale: self.scale, context: self.context, layer: CGLayer(self.context, size: realSize, auxiliaryInfo: nil))
+        let layer = TROfflineRender(width: realSize.width, height: realSize.height, scale: self.scale, context: self.context, layer: CGLayer(self.context, size: realSize, auxiliaryInfo: nil))
         layer.screenCoodinate = self.screenCoodinate
         layer.context.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))
         call(layer)
