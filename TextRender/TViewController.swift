@@ -46,13 +46,13 @@ class TViewController: UIViewController {
         let v = TRView(content: TRVectorImage(contentMode: .scaleAspectFit(0.5), image:pv), frame: CGRect(x: 10, y: 10, width: 60, height: 60))
         
 
-        let node = ContainerSpan(maxWidth: 96, font: UIFont.systemFont(ofSize: 44, weight: .bold)) {
-            ImageSpan(image: UIImage.k.cgImage!, font: UIFont.systemFont(ofSize: 14), mode: .scaleAspectFit(0.5))
+        let node = ContainerSpan(font: UIFont.systemFont(ofSize: 44, weight: .bold)) {
+            ImageSpan(image: UIImage.k.cgImage!, font: UIFont.systemFont(ofSize: 44), mode: .scaleAspectFit(0.5))
             SpacingSpan(size: 10, font: UIFont.systemFont(ofSize: 10))
-            TextSpan(string: "tetst", font: UIFont.systemFont(ofSize: 14), textColor: UIColor.red)
+            TextSpan(string: "tetst", font: UIFont.systemFont(ofSize: 44), textColor: UIColor.red)
         }
         
-        let ttt = TRView(content: TRTextFrame(width: 96, string: node.attributeString), frame: CGRect(x: 180, y: 90, width: 96, height: 80))
+        let ttt = TRView(content: TRTextFrame(width: .zero, string: node.attributeString), frame: CGRect(x: 180, y: 90, width: 96, height: 80))
         
         let a = r.draw { t in
             img.draw(render: t)
@@ -60,6 +60,9 @@ class TViewController: UIViewController {
             ttt.draw(render: t)
         }
         self.view.layer.contents = a
+        let e = TextElement(text: "dada", font: UIFont.systemFont(ofSize: 12), textColor: UIColor.red.cgColor).background(color: UIColor.yellow.cgColor).stroke(color: UIColor.blue.cgColor, width: 2).shadow(color: UIColor.darkGray.cgColor, radius: 10, offset: CGPoint(x: 1, y: 2))
+        
+        RenderModel().load(elenemt: e)
     }
     
 
