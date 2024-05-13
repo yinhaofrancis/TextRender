@@ -12,229 +12,138 @@ public protocol Drawable{
     func draw(render:TROfflineRender)
 }
 
-public protocol Element{
-    
-    associatedtype D:Element
-    
-    var element:D { get }
-    
-    var isRoot:Bool { get }
+
+public protocol FrameDrawable:Drawable{
+    var frame:CGRect { get set }
 }
 
-extension Never:Element{
-    public var isRoot: Bool {
-        true
-    }
-    
-    public typealias D = Never
-    
-    
-    public var element: Never{
-        return fatalError()
-    }
-    
+public protocol Modify:FrameDrawable{
+    associatedtype D:FrameDrawable
+    var content:D { get set }
 }
 
-
-extension Element{
-    public func background(color:CGColor)->Background<Self>{
-        Background(element: self, color: color)
+public struct Block:FrameDrawable{
+    public func draw(render: TROfflineRender) {
+        render.context.setFillColor(self.color)
+        render.context.addPath(CGPath(rect: self.frame, transform: nil))
+        render.context.fillPath()
     }
     
-    public func stroke(color: CGColor,width:CGFloat)->Stroke<Self>{
-        Stroke(element: self, color: color, width: width)
-    }
+    public var frame: CGRect
     
-    public func shadow(color: CGColor,radius:CGFloat,offset:CGPoint)->Shadow<Self>{
-        Shadow(element: self, color: color, radius: radius, offset: offset)
-    }
-}
-
-public struct Background<Content:Element>:Element{
-    public var isRoot: Bool{
-        false
-    }
+    public var color:CGColor = UIColor.black.cgColor
     
-    public typealias D = Content
-    
-    public var element: Content
-    
-    public var backgroundColor:CGColor
-    
-    public init(element: Content, color: CGColor) {
-        self.element = element
-        self.backgroundColor = color
-    }
-}
-
-public struct Stroke<Content:Element>:Element{
-    
-    public var isRoot: Bool{
-        false
-    }
-    
-    public typealias D = Content
-    
-    public var element: Content
-    
-    public var strokeColor:CGColor
-    
-    public var width:CGFloat
-    
-    public init(element: Content, color: CGColor,width:CGFloat) {
-        self.element = element
-        self.strokeColor = color
-        self.width = width
-    }
-}
-
-public struct Shadow<Content:Element>:Element{
-    
-    public var isRoot: Bool{
-        false
-    }
-    
-    public typealias D = Content
-    
-    public var element: Content
-    
-    public var shadowColor    :CGColor
-    public var shadowRadius   :CGFloat
-    public var shadowOffset   :CGPoint
-    
-    public init(element: Content, color: CGColor,radius:CGFloat,offset:CGPoint) {
-        self.element = element
-        self.shadowColor = color
-        self.shadowRadius = radius
-        self.shadowOffset = offset
-    }
-}
-
-public struct ContentResizeMode<Content:Element>:Element{
-    
-    public var isRoot: Bool{
-        false
-    }
-    
-    public var element: Content
-    
-    public typealias D = Content
-    
-    public var contentMode   :TRContentMode
-    
-    public init(element: Content,model:TRContentMode) {
-        self.element = element
-    
-        self.contentMode = model
-    }
-}
-
-public struct Frame<Content:Element>:Element{
-    
-    public var isRoot: Bool{
-        false
-    }
-    
-    public var element: Content
-    
-    public typealias D = Content
-    
-    public var frame   :CGRect
-    
-    public init(element: Content,frame:CGRect) {
-        self.element = element
-    
+    public init(frame: CGRect, color: CGColor) {
         self.frame = frame
+        self.color = color
     }
 }
-
-public struct pixelImage{
-   
-    public var image    :CGImage
+public struct Pixel:FrameDrawable{
+    public func draw(render: TROfflineRender) {
+        render.context.saveGState()
+        let l = render.draw(size: frame.size) { r in
+            r.context.draw(self.image, in: CGRect(origin: .zero, size: frame.size), byTiling: false)
+        }
+        if let l {
+            render.context.draw(l, in: frame)
+        }
+        render.context.restoreGState()
+    }
+    public var frame: CGRect
     
-    public init(image: CGImage) {
+    public var image:CGImage
+    
+    public init(frame: CGRect, image: CGImage) {
+        self.frame = frame
         self.image = image
     }
 }
 
-public struct VectorImage{
 
-    public var image    :TRPDFImage
-    public init(image: TRPDFImage) {
-        self.image = image
+public struct Corner<T:FrameDrawable>:Modify{
+    public var frame: CGRect{
+        get{
+            self.content.frame
+        }
+        set{
+            self.content.frame = newValue
+            
+        }
+    }
+    
+    
+    public var content: T
+    
+    public var corner:CGFloat
+    
+    public func draw(render: TROfflineRender) {
+        let path = CGPath(roundedRect: content.frame, cornerWidth: corner, cornerHeight: corner, transform: nil)
+        render.context.saveGState()
+        render.context.addPath(path)
+        render.context.clip()
+        content.draw(render: render)
+        render.context.restoreGState()
     }
 }
 
-public struct TextFrame{
-    public var text    :TRTextFrame
-    public init(text: TRTextFrame) {
-        self.text = text
+public struct Shadow<T:FrameDrawable>:Modify{
+    
+    public var frame: CGRect {
+        get{
+            self.content.frame
+        }
+        set{
+            self.content.frame = newValue
+        }
     }
+    
+    
+    public var content: T
+    
+
+    public func draw(render: TROfflineRender) {
+        render.context.saveGState()
+        if let shadowColor{
+            render.context.setShadow(offset: shadowOffset, blur: self.shadowRadius, color:shadowColor)
+        }else{
+            render.context.setShadow(offset: shadowOffset, blur: self.shadowRadius)
+        }
+        self.content.draw(render: render)
+        render.context.restoreGState()
+    }
+    
+    public init(content: T, shadowColor: CGColor? = nil, shadowRadius: CGFloat, shadowOffset: CGSize) {
+        self.content = content
+        self.shadowColor = shadowColor
+        self.shadowRadius = shadowRadius
+        self.shadowOffset = shadowOffset
+    }
+    
+    public var shadowColor:CGColor?
+    
+    public var shadowRadius:CGFloat
+    
+    public var shadowOffset:CGSize
+    
+
 }
 
-public struct TextElement{
+public struct TransparencyLayer<T:FrameDrawable>:Modify{
     
-    public var text:String
-    
-    public var font:UIFont
-    
-    public var textColor:CGColor
-    
-    public init(text: String, font: UIFont, textColor: CGColor) {
-        self.text = text
-        self.font = font
-        self.textColor = textColor
-    }
-}
-
-extension TextFrame:Element{
-    
-    public var isRoot: Bool{
-        true
+    public var frame: CGRect {
+        get{
+            self.content.frame
+        }
+        set{
+            self.content.frame = newValue
+        }
     }
     
-    public typealias D = Never
+    public var content: T
     
-    public var element: Never {
-        return fatalError()
-    }
-}
-
-
-extension VectorImage:Element{
-    
-    public var isRoot: Bool{
-        true
-    }
-    
-    public typealias D = Never
-    
-    public var element: Never {
-        return fatalError()
-    }
-}
-
-extension pixelImage:Element{
-    
-    public var isRoot: Bool{
-        true
-    }
-    
-    public typealias D = Never
-    
-    public var element: Never {
-        return fatalError()
-    }
-}
-
-extension TextElement:Element{
-    public var isRoot: Bool{
-        true
-    }
-    
-    public typealias D = Never
-    
-    public var element: Never {
-        return fatalError()
+    public func draw(render: TROfflineRender) {
+        render.context.beginTransparencyLayer(auxiliaryInfo: nil)
+        content.draw(render: render)
+        render.context.endTransparencyLayer()
     }
 }
