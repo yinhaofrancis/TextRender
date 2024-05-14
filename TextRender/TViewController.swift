@@ -35,16 +35,20 @@ class TViewController: UIViewController {
         
         let ttt = TRView(content: TRTextFrame(width: .zero, string: node.attributeString), frame: CGRect(x: 180, y: 90, width: 96, height: 80))
         
-        var block = Shadow(content: TransparencyLayer(content: Corner(content: Pixel(frame: CGRect(x: 30, y: 300, width: 100, height: 100), image: UIImage.k.cgImage!), corner: 8)), shadowRadius: 20, shadowOffset: CGSize(width: -1, height: -1))
+        var block = Shadow(content: TransparencyLayer(content: Corner(content: Pixel(image: UIImage.k.cgImage!), corner: 8)), shadowRadius: 20, shadowOffset: CGSize(width: -1, height: -1))
         
+        var block2 = Background(content: Resize(content: block, frame: CGSize(width: 100, height: 250), contentMode: .scaleAspectFit(0.5)), color: UIColor.yellow.cgColor)
+        var block3 = Background(content: Resize(content: block, frame: CGSize(width: 100, height: 200), contentMode: .scaleAspectFit(0.5)), color: UIColor.red.cgColor)
+
+        var stack = Stack {
+            block2
+            Spacing(contentSize: CGSize(width: 20, height: 20))
+            block3
+        }
+        stack.align = .end
+        print(stack.contentSize)
         let a = r.draw { t in
-            img.draw(render: t)
-            v.draw(render: t)
-            ttt.draw(render: t)
-            block.draw(render: t)
-            
-            block.frame = CGRect(x: 30, y: 400, width: 66, height: 66)
-            block.draw(render: t)
+            stack.draw(container: CGRect(x: 10, y: 80, width: stack.contentSize.width, height: stack.contentSize.height), render: t)
         }
         self.view.layer.contents = a
         
