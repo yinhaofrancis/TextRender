@@ -44,7 +44,9 @@ public class TROfflineRender{
         self.width = width
         self.height = height
         self.scale = scale
-        guard let ctx = CGContext(data: nil, width: Int(ceil(width * scale)), height: Int(ceil(height * scale)), bitsPerComponent: 8, bytesPerRow: Int(ceil(width * scale * 4)), space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue) else {
+        let w = Int(ceil(width * scale))
+        let h = Int(ceil(height * scale))
+        guard let ctx = CGContext(data: nil, width: w, height: h, bitsPerComponent: 8, bytesPerRow: w * 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue) else {
             throw NSError(domain: "create cgctx fail", code: 0)
         }
         ctx.scaleBy(x: self.scale, y: self.scale)

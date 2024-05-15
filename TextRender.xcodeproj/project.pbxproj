@@ -16,12 +16,12 @@
 		0020BE892BEE28EA004B3125 /* TRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0020BE882BEE28EA004B3125 /* TRView.swift */; };
 		0020BE8A2BEE2FE0004B3125 /* TRRendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000B5AB02BDA62ED00F8CFD9 /* TRRendable.swift */; };
 		0020BE8B2BEE2FE0004B3125 /* TRText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CBC6672BA02C2200A67F82 /* TRText.swift */; };
-		0020BE8D2BEE2FE0004B3125 /* TRNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007E04332BEDF89D004DE5C6 /* TRNode.swift */; };
 		0020BE8E2BEE2FE0004B3125 /* TRRuby.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE5ACF2BEB666A007361C2 /* TRRuby.swift */; };
 		0020BE8F2BEE2FE0004B3125 /* TRRunDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0008F69A2BDB50EE0089B2A5 /* TRRunDelegate.swift */; };
 		0020BE942BEE306F004B3125 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0020BE932BEE306F004B3125 /* Content.swift */; };
 		005319F32BDE507E007B8C60 /* DINPRO-BOLD.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 005319F22BDE5021007B8C60 /* DINPRO-BOLD.OTF */; };
 		005319F52BDE5289007B8C60 /* avd.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 005319F42BDE5289007B8C60 /* avd.pdf */; };
+		007A90432BF458C2003F57F0 /* Modify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007A90422BF458C2003F57F0 /* Modify.swift */; };
 		00BE5AC92BEB6057007361C2 /* emoji.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC32BEB6056007361C2 /* emoji.pdf */; };
 		00BE5ACA2BEB6057007361C2 /* more.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC42BEB6056007361C2 /* more.pdf */; };
 		00BE5ACB2BEB6057007361C2 /* mic.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC52BEB6056007361C2 /* mic.pdf */; };
@@ -49,7 +49,7 @@
 		0020BE932BEE306F004B3125 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		005319F22BDE5021007B8C60 /* DINPRO-BOLD.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPRO-BOLD.OTF"; sourceTree = "<group>"; };
 		005319F42BDE5289007B8C60 /* avd.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = avd.pdf; sourceTree = "<group>"; };
-		007E04332BEDF89D004DE5C6 /* TRNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRNode.swift; sourceTree = "<group>"; };
+		007A90422BF458C2003F57F0 /* Modify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modify.swift; sourceTree = "<group>"; };
 		00BE5AC32BEB6056007361C2 /* emoji.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = emoji.pdf; sourceTree = "<group>"; };
 		00BE5AC42BEB6056007361C2 /* more.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = more.pdf; sourceTree = "<group>"; };
 		00BE5AC52BEB6056007361C2 /* mic.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = mic.pdf; sourceTree = "<group>"; };
@@ -83,7 +83,6 @@
 			isa = PBXGroup;
 			children = (
 				000B5AB02BDA62ED00F8CFD9 /* TRRendable.swift */,
-				007E04332BEDF89D004DE5C6 /* TRNode.swift */,
 				00CBC6672BA02C2200A67F82 /* TRText.swift */,
 				00BE5ACF2BEB666A007361C2 /* TRRuby.swift */,
 				0008F69A2BDB50EE0089B2A5 /* TRRunDelegate.swift */,
@@ -95,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				0020BE932BEE306F004B3125 /* Content.swift */,
+				007A90422BF458C2003F57F0 /* Modify.swift */,
 				000031C22BEF8104002649A9 /* Model.swift */,
 			);
 			path = View;
@@ -234,7 +234,7 @@
 				0020BE8E2BEE2FE0004B3125 /* TRRuby.swift in Sources */,
 				00CBC6542BA02BFB00A67F82 /* AppDelegate.swift in Sources */,
 				0011FDC82BDA3FD300D39681 /* TRImage.swift in Sources */,
-				0020BE8D2BEE2FE0004B3125 /* TRNode.swift in Sources */,
+				007A90432BF458C2003F57F0 /* Modify.swift in Sources */,
 				0020BE892BEE28EA004B3125 /* TRView.swift in Sources */,
 				00C51A5F2BA84CB20024EA3E /* TViewController.swift in Sources */,
 				0008F6992BDB4A500089B2A5 /* TRContent.swift in Sources */,

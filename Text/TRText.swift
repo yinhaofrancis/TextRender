@@ -145,9 +145,7 @@ public struct TRTextFrame:Hashable,TRContent{
     public var contentMode: TRContentMode = .center(1)
     
     public func render(frame: CGRect, render:TROfflineRender) {
-        guard let layer = self.render(off: render) else { return }
-        let result = TROfflineRender.contentModeFrame(itemFrame: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height), containerFrame: frame, mode: contentMode)
-        render.context.draw(layer, in: result)
+        self.renderOffline(frame: frame, off: render)
     }
     
     
@@ -261,26 +259,17 @@ extension TRTextFrame{
         attr[NSAttributedString.Key(kCTRunDelegateAttributeName as String)] = run.runDelegate as Any
         return NSAttributedString(string: String(run.char),attributes:attr)
     }
-    private func renderOffline(off: TROfflineRender) {
-        off.context.saveGState()
-        off.screenCoodinate = false
-        self.draw(ctx: off.context)
-        off.context.restoreGState()
-        for i in self.runDelegateRun{
-            i.runDelegate?.content.draw(frame: i.rect,render: off)
+    private func renderOffline(frame:CGRect,off: TROfflineRender) {
+        let layer = off.draw(size: self.size) { r in
+        
+            self.draw(ctx: r.context)
+            for i in self.runDelegateRun{
+                i.runDelegate?.content.draw(frame: i.rect,render: r)
+            }
         }
-    }
-    
-    public func render(scale:CGFloat)->CGImage?{
-        let render = try? TROfflineRender(width: self.size.width, height: self.size.height, scale: scale)
-        return render?.draw { off in
-            renderOffline(off: off)
-        }
-    }
-    public func render(off:TROfflineRender)->CGLayer?{
-        return off.draw(size: self.size) { off in
-            renderOffline(off: off)
-        }
+        guard let layer else { return }
+        let target = TROfflineRender.contentModeFrame(itemFrame: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height), containerFrame: frame, mode: self.contentMode)
+        off.context.draw(layer, in: target)
     }
 }
 

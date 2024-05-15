@@ -17,9 +17,62 @@ public protocol FrameDrawable:Drawable{
     var contentSize:CGSize { get }
 }
 
-public protocol Modify:FrameDrawable{
-    associatedtype D:FrameDrawable
-    var content:D { get set }
+public struct RichText:FrameDrawable{
+    public var contentSize: CGSize{
+        self.makeTextFrame(w: CGSize(width: CGFloat.infinity, height: .infinity)).size
+    }
+    
+    public func draw(container: CGRect, render: TROfflineRender) {
+        render.context.saveGState()
+        let f = self.makeTextFrame(w: container.size)
+        f.render(frame: container, render: render)
+        render.context.restoreGState()
+    }
+    
+    public var text:NSAttributedString
+    
+    public func makeTextFrame(w:CGSize)->TRTextFrame{
+        let tr = NSAttributedString(string: "……")
+        return TRTextFrame(constaint: w, string: text, truncation: tr)
+    }
+}
+
+public struct Text:FrameDrawable{
+    
+    public var text:String
+    public var font:UIFont
+    public var textColor:UIColor
+    
+    public var contentSize: CGSize {
+        return self.makeTextFrame(w: CGSize(width: CGFloat.infinity, height: .infinity)).size
+    }
+    
+    public func makeTextFrame(w:CGSize)->TRTextFrame{
+        let text = NSAttributedString(string: text, attributes: [
+            .font:self.font,
+            .foregroundColor:self.textColor
+        ])
+        let tr = NSAttributedString(string: "……", attributes: [
+            .font:self.font,
+            .foregroundColor:self.textColor
+        ])
+        return TRTextFrame(constaint: w, string: text, truncation: tr)
+    }
+    
+    public func draw(container: CGRect, render: TROfflineRender) {
+        render.context.saveGState()
+        let f = self.makeTextFrame(w: container.size)
+        f.render(frame: container, render: render)
+        render.context.restoreGState()
+    }
+    
+    public init(text: String, font: UIFont, textColor: UIColor) {
+        self.text = text
+        self.font = font
+        self.textColor = textColor
+    }
+    
+    
 }
 
 public struct Block:FrameDrawable{
@@ -41,12 +94,12 @@ public struct Block:FrameDrawable{
 public struct Pixel:FrameDrawable{
     public func draw(container :CGRect,render: TROfflineRender) {
         render.context.saveGState()
-        let l = render.draw(size: container.size) { r in
-            r.context.draw(self.image, in: CGRect(origin: .zero, size: container.size), byTiling: false)
+        
+        let layer = render.draw(size: CGSize(width: self.image.width, height: self.image.height)) { r in
+            r.context.draw(self.image, in: CGRect(origin: .zero, size: CGSize(width: self.image.width, height: self.image.height)), byTiling: false)
         }
-        if let l {
-            render.context.draw(l, in: container)
-        }
+        guard let layer else { return }
+        render.context.draw(layer, in: container)
         render.context.restoreGState()
     }
     public var contentSize: CGSize
@@ -57,68 +110,6 @@ public struct Pixel:FrameDrawable{
         self.contentSize = CGSize(width: image.width, height: image.height)
         self.image = image
     }
-}
-
-
-public struct Corner<T:FrameDrawable>:Modify{
-    public var contentSize: CGSize{
-        get{
-            self.content.contentSize
-        }
-    }
-    
-    
-    public var content: T
-    
-    public var corner:CGFloat
-    
-    public func draw(container :CGRect,render: TROfflineRender) {
-        let path = CGPath(roundedRect: container, cornerWidth: corner, cornerHeight: corner, transform: nil)
-        render.context.saveGState()
-        render.context.addPath(path)
-        render.context.clip()
-        content.draw(container: container, render: render)
-        render.context.restoreGState()
-    }
-}
-
-public struct Shadow<T:FrameDrawable>:Modify{
-    
-    public var contentSize: CGSize {
-        get{
-            self.content.contentSize
-        }
-    }
-    
-    
-    public var content: T
-    
-
-    public func draw(container :CGRect,render: TROfflineRender) {
-        render.context.saveGState()
-        if let shadowColor{
-            render.context.setShadow(offset: shadowOffset, blur: self.shadowRadius, color:shadowColor)
-        }else{
-            render.context.setShadow(offset: shadowOffset, blur: self.shadowRadius)
-        }
-        self.content.draw(container: container, render: render)
-        render.context.restoreGState()
-    }
-    
-    public init(content: T, shadowColor: CGColor? = nil, shadowRadius: CGFloat, shadowOffset: CGSize) {
-        self.content = content
-        self.shadowColor = shadowColor
-        self.shadowRadius = shadowRadius
-        self.shadowOffset = shadowOffset
-    }
-    
-    public var shadowColor:CGColor?
-    
-    public var shadowRadius:CGFloat
-    
-    public var shadowOffset:CGSize
-    
-
 }
 
 public struct Spacing:FrameDrawable{
@@ -239,70 +230,7 @@ public struct Stack:FrameDrawable{
     
     
 }
-public struct TransparencyLayer<T:FrameDrawable>:Modify{
-    
-    public var contentSize: CGSize {
-        get{
-            self.content.contentSize
-        }
-    }
-    
-    public var content: T
-    
-    public func draw(container :CGRect,render: TROfflineRender) {
-        render.context.beginTransparencyLayer(auxiliaryInfo: nil)
-        content.draw(container: container, render: render)
-        render.context.endTransparencyLayer()
-    }
-    
-}
 
-public struct Resize<T:FrameDrawable>:Modify{
-    
-    public var content: T
-    
-    public var contentSize: CGSize
-    
-    public var contentMode:TRContentMode
-    
-    public func draw(container :CGRect,render: TROfflineRender) {
-        let nf = TROfflineRender.contentModeFrame(itemFrame: CGRect(origin: .zero, size: content.contentSize), containerFrame: container, mode: contentMode)
-        content.draw(container: nf, render: render)
-    }
-    
-    public init(content: T, frame: CGSize, contentMode: TRContentMode) {
-        self.content = content
-        self.contentSize = frame
-        self.contentMode = contentMode
-    }
-}
-public struct Background<T:FrameDrawable>:Modify{
-    public func draw(container :CGRect,render: TROfflineRender) {
-        render.context.saveGState()
-        render.context.addPath(CGPath(rect: container, transform: nil))
-        render.context.setFillColor(self.color)
-        render.context.fillPath()
-        self.content.draw(container: container, render: render)
-        render.context.restoreGState()
-    }
-    
-    public var content: T
-    
-    public var contentSize: CGSize{
-        get{
-            self.content.contentSize
-        }
-    }
-    
-    public var color:CGColor
-    
-    public init(content: T, color: CGColor) {
-        self.content = content
-        self.color = color
-    }
-    
-    
-}
 
 public struct Contents{
     var drawables:[FrameDrawable]
@@ -327,3 +255,4 @@ public struct ContentBuilder{
     }
     
 }
+

@@ -68,11 +68,7 @@ public struct TRVectorImage:TRContent{
     public func render(frame: CGRect, render:TROfflineRender) {
         let frame = TROfflineRender.contentModeFrame(itemFrame: image.frame, containerFrame: frame, mode: contentMode)
         render.context.saveGState()
-        let layer = render.draw(size: frame.size) { l in
-            drawlayer(render: l, frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        }
-        guard let layer else { return }
-        render.context.draw(layer, in: frame)
+        drawlayer(render: render, frame: frame)
         render.context.restoreGState()
     }
 }
@@ -111,11 +107,7 @@ public struct TRImage:TRContent{
     public func render(frame: CGRect,render:TROfflineRender) {
         let frame = TROfflineRender.contentModeFrame(itemFrame: CGRect(x: 0, y: 0, width: image.width, height: image.height), containerFrame: frame, mode: contentMode)
         render.context.saveGState()
-        let layer = render.draw(size: frame.size) { l in
-            drawlayer(render: l, frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        }
-        guard let layer else { return }
-        render.context.draw(layer, in: frame)
+        drawlayer(render: render, frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         render.context.restoreGState()
     }
 }
