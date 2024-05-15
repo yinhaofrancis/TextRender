@@ -80,15 +80,23 @@ public struct TransparencyLayer<T:FrameDrawable>:Modify{
             self.content.contentSize
         }
     }
+    public var blend:CGBlendMode
     
     public var content: T
     
-    public func draw(container :CGRect,render: TROfflineRender) {
-        render.context.beginTransparencyLayer(auxiliaryInfo: nil)
-        content.draw(container: container, render: render)
-        render.context.endTransparencyLayer()
+    public init(blend: CGBlendMode = .normal, content: T) {
+        self.blend = blend
+        self.content = content
     }
     
+    public func draw(container :CGRect,render: TROfflineRender) {
+        render.context.saveGState()
+        render.context.setBlendMode(self.blend)
+        render.context.beginTransparencyLayer(in:container,auxiliaryInfo: nil)
+        content.draw(container: container, render: render)
+        render.context.endTransparencyLayer()
+        render.context.restoreGState()
+    }
 }
 
 public struct Resize<T:FrameDrawable>:Modify{
@@ -112,6 +120,7 @@ public struct Resize<T:FrameDrawable>:Modify{
 }
 public struct Background<T:FrameDrawable>:Modify{
     public func draw(container :CGRect,render: TROfflineRender) {
+        print(container)
         render.context.saveGState()
         render.context.addPath(CGPath(rect: container, transform: nil))
         render.context.setFillColor(self.color)

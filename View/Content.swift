@@ -227,10 +227,7 @@ public struct Stack:FrameDrawable{
     public init(@ContentBuilder contents: ()->Contents) {
         self.contents = contents().drawables
     }
-    
-    
 }
-
 
 public struct Contents{
     var drawables:[FrameDrawable]

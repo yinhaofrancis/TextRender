@@ -39,10 +39,9 @@ class TViewController: UIViewController {
             .font:UIFont.systemFont(ofSize: 20),
             .foregroundColor:UIColor.red
         ]))
-        let tag = TRTextTag(textframe: TRTextFrame(width: 64, string: a), font: UIFont.systemFont(ofSize: 64))
-        var block4 = Background(content: Resize(content: RichText(text: a), frame: CGSize(width: 100, height: 150), contentMode: .scaleAspectFit(0.5)), color: UIColor.gray.cgColor)
+        var block4 = Background(content: TransparencyLayer(blend: .destinationIn , content: Resize(content:Shadow(content: RichText(text: a), shadowRadius: 30, shadowOffset: .zero), frame: CGSize(width: 100, height: 150), contentMode: .scaleAspectFit(0.5))), color: UIColor.gray.cgColor)
         
-        
+
         
         var stack = Stack {
             block2
@@ -51,17 +50,17 @@ class TViewController: UIViewController {
             Spacing(contentSize: CGSize(width: 20, height: 20))
             block4
         }
+        stack.align = .end
         var stack2 = Stack{
             stack
             Spacing(contentSize: CGSize(width: 20, height: 20))
             stack
         }
-        stack.align = .end
+        
         stack2.axis = .col
-        print(stack.contentSize)
         let dimg = r.draw { t in
 //            let layer = t.draw(size: self.view.frame.size) { r in
-                stack2.draw(container: CGRect(x: 10, y: 80, width: stack.contentSize.width, height: stack2.contentSize.height), render: t)
+                stack2.draw(container: CGRect(x: 10, y: 80, width: stack2.contentSize.width, height: stack2.contentSize.height), render: t)
 //            }
 //            t.context.draw(layer!, at: .zero)
 
