@@ -39,7 +39,7 @@ class TViewController: UIViewController {
             .font:UIFont.systemFont(ofSize: 20),
             .foregroundColor:UIColor.red
         ]))
-        var block4 = Background(content: TransparencyLayer(blend: .destinationIn , content: Resize(content:Shadow(content: RichText(text: a), shadowRadius: 30, shadowOffset: .zero), frame: CGSize(width: 100, height: 150), contentMode: .scaleAspectFit(0.5))), color: UIColor.gray.cgColor)
+        var block4 = Background(content: TransparencyLayer(blend: .normal , content: Resize(content:Shadow(content: RichText(text: a), shadowRadius: 100, shadowOffset: .zero), frame: CGSize(width: 100, height: 150), contentMode: .scaleAspectFit(0.5))), color: UIColor.gray.cgColor)
         
 
         

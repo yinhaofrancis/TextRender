@@ -22,6 +22,7 @@
 		005319F32BDE507E007B8C60 /* DINPRO-BOLD.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 005319F22BDE5021007B8C60 /* DINPRO-BOLD.OTF */; };
 		005319F52BDE5289007B8C60 /* avd.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 005319F42BDE5289007B8C60 /* avd.pdf */; };
 		007A90432BF458C2003F57F0 /* Modify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007A90422BF458C2003F57F0 /* Modify.swift */; };
+		0092750A2BF4CC510095B34C /* Reource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009275092BF4CC510095B34C /* Reource.swift */; };
 		00BE5AC92BEB6057007361C2 /* emoji.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC32BEB6056007361C2 /* emoji.pdf */; };
 		00BE5ACA2BEB6057007361C2 /* more.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC42BEB6056007361C2 /* more.pdf */; };
 		00BE5ACB2BEB6057007361C2 /* mic.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC52BEB6056007361C2 /* mic.pdf */; };
@@ -50,6 +51,7 @@
 		005319F22BDE5021007B8C60 /* DINPRO-BOLD.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPRO-BOLD.OTF"; sourceTree = "<group>"; };
 		005319F42BDE5289007B8C60 /* avd.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = avd.pdf; sourceTree = "<group>"; };
 		007A90422BF458C2003F57F0 /* Modify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modify.swift; sourceTree = "<group>"; };
+		009275092BF4CC510095B34C /* Reource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reource.swift; sourceTree = "<group>"; };
 		00BE5AC32BEB6056007361C2 /* emoji.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = emoji.pdf; sourceTree = "<group>"; };
 		00BE5AC42BEB6056007361C2 /* more.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = more.pdf; sourceTree = "<group>"; };
 		00BE5AC52BEB6056007361C2 /* mic.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = mic.pdf; sourceTree = "<group>"; };
@@ -100,9 +102,18 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		009275082BF4CC100095B34C /* Async */ = {
+			isa = PBXGroup;
+			children = (
+				009275092BF4CC510095B34C /* Reource.swift */,
+			);
+			path = Async;
+			sourceTree = "<group>";
+		};
 		00CBC6472BA02BFB00A67F82 = {
 			isa = PBXGroup;
 			children = (
+				009275082BF4CC100095B34C /* Async */,
 				0020BE922BEE3048004B3125 /* View */,
 				0020BE872BEE2859004B3125 /* Text */,
 				0011FDC32BDA33D800D39681 /* TRRender.swift */,
@@ -233,6 +244,7 @@
 				0020BE942BEE306F004B3125 /* Content.swift in Sources */,
 				0020BE8E2BEE2FE0004B3125 /* TRRuby.swift in Sources */,
 				00CBC6542BA02BFB00A67F82 /* AppDelegate.swift in Sources */,
+				0092750A2BF4CC510095B34C /* Reource.swift in Sources */,
 				0011FDC82BDA3FD300D39681 /* TRImage.swift in Sources */,
 				007A90432BF458C2003F57F0 /* Modify.swift in Sources */,
 				0020BE892BEE28EA004B3125 /* TRView.swift in Sources */,
