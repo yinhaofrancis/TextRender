@@ -33,6 +33,10 @@ public struct Corner<T:FrameDrawable>:Modify{
         content.draw(container: container, render: render)
         render.context.restoreGState()
     }
+    public init(content: T, corner: CGFloat) {
+        self.content = content
+        self.corner = corner
+    }
 }
 
 public struct Shadow<T:FrameDrawable>:Modify{

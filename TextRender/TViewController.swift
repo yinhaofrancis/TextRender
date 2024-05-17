@@ -6,7 +6,7 @@
 //
 
 import Accelerate
-
+import TRender
 import UIKit
 
 let scale :CGFloat = 2
@@ -27,7 +27,6 @@ class TViewController: UIViewController {
     
         let pv = try! TRPDFImageSet(url: Bundle.main.url(forResource: "msg", withExtension: "pdf")!)[1]!
         let v = TRView(content: TRVectorImage(contentMode: .scaleAspectFit(0.5), image:pv), frame: CGRect(x: 10, y: 10, width: 60, height: 60))
-        
         var block = Padding(content: Shadow(content: TransparencyLayer(content: Corner(content: Pixel(image: UIImage.k.cgImage!), corner: 8)), shadowRadius: 20, shadowOffset: CGSize(width: -1, height: -1)), padding: UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3))
         
         var block2 = Background(content: Resize(content: block, frame: CGSize(width: 100, height: 250), contentMode: .scaleAspectFit(0.5)), color: UIColor.yellow.cgColor)
@@ -41,7 +40,7 @@ class TViewController: UIViewController {
         ]))
         var block4 = Background(content: TransparencyLayer(blend: .normal , content: Resize(content:Shadow(content: RichText(text: a), shadowRadius: 100, shadowOffset: .zero), frame: CGSize(width: 100, height: 150), contentMode: .scaleAspectFit(0.5))), color: UIColor.gray.cgColor)
         
-
+        
         
         var stack = Stack {
             block2
@@ -66,13 +65,43 @@ class TViewController: UIViewController {
 
 ////////
 //            Text(text: "abc", font: UIFont.systemFont(ofSize: 8), textColor: UIColor.green).draw(container: CGRect(x: 0, y: 0, width: 100, height: 100), render: t)
-//            
-
+//
         }
         self.view.layer.contents = dimg
         
+        try! d.download(url: "https://www.baidu.com").load { i in
+            let f = try! FileHandle(forReadingFrom: i.localFile)
+            if #available(iOS 13.4, *) {
+                let data = try! f.readToEnd()
+                print("ok",data)
+            } else {
+                // Fallback on earlier versions
+            }
+           
+        }
+        let app = m { i in
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+                i("ddd")
+            }
+        }
         
     }
     
 
+}
+let d = Downloader()
+
+public class m{
+    
+    var c:String?
+    
+    public init(c: String? = nil ,call:(@escaping(String)->Void)->Void) {
+        self.c = c
+        call { i in
+            self.c = i
+        }
+    }
+    deinit{
+        
+    }
 }

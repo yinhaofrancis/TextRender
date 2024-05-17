@@ -35,6 +35,9 @@ public struct RichText:FrameDrawable{
         let tr = NSAttributedString(string: "……")
         return TRTextFrame(constaint: w, string: text, truncation: tr)
     }
+    public init(text: NSAttributedString) {
+        self.text = text
+    }
 }
 
 public struct Text:FrameDrawable{
