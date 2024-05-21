@@ -255,7 +255,7 @@ extension CocoTextFrame{
         return NSAttributedString(string: String(run.char),attributes:attr)
     }
     public func render(frame:CGRect,render: CocoOfflineRender) {
-        let layer = render.draw(size: self.size,followCoodinate: render.context.width == 0 ? false : true) { r in
+        let layer = render.draw(size: self.size,followCoodinate: render.layer != nil ? false : true) { r in
         
             self.draw(ctx: r.context)
             for i in self.runDelegateRun{

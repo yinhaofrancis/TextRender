@@ -170,12 +170,20 @@ extension NSAttributedString{
                                  font:UIFont,
                                  contentMode:CocoContentMode,
                                  attribute:[NSAttributedString.Key:Any]? = nil)->NSAttributedString{
-        var att = attribute
-        att?[.font] = font
         let a = NSAttributedString(string: text, attributes: [
             .font:font,.foregroundColor:textColor
         ])
-        let cc = CocoTextRunDelegate(font: font, text: CocoTextFrame(width: width, string: a), contentMode: contentMode)
+        return self.textBlock(text: a, width: width, font: font, contentMode: contentMode, attribute: attribute)
+    }
+    
+    public static func textBlock(text:NSAttributedString,
+                                 width:CGFloat,
+                                 font:UIFont,
+                                 contentMode:CocoContentMode,
+                                 attribute:[NSAttributedString.Key:Any]? = nil)->NSAttributedString{
+        var att = attribute
+        att?[.font] = font
+        let cc = CocoTextRunDelegate(font: font, text: CocoTextFrame(width: width, string: text), contentMode: contentMode)
         return CocoTextFrame.createRunDelegate(run: cc, attribute: att ?? [.font:font])
     }
 }

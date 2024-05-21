@@ -29,7 +29,16 @@ class TViewController: UIViewController {
         atstring = atstring + NSAttributedString.block(font: .systemFont(ofSize: 18), width: 50, color: UIColor.yellow.cgColor) + NSAttributedString.image(font: UIFont.systemFont(ofSize: 18), image: UIImage.k.cgImage!, contentMode: .scaleAspectFit(0.5)) + NSAttributedString.linearGradient(font: .systemFont(ofSize: 18), image: {
             CocoGradient.GradientItem(color: UIColor.red.cgColor, location: 0)
             CocoGradient.GradientItem(color: UIColor.blue.cgColor, location: 1)
-        }, startPoint: CGPoint.zero, endPoint: CGPoint(x: 1, y: 0), contentMode: .center(1)) + NSAttributedString.textBlock(text: "ndk", textColor: UIColor.green, width: 30, font: .boldSystemFont(ofSize: 12), contentMode: .center(1))
+        }, startPoint: CGPoint.zero, endPoint: CGPoint(x: 1, y: 0), contentMode: .center(1))
+        
+        
+        
+        var atstring2 = NSAttributedString(string: "Ndk", attributes: [
+            .font:UIFont.systemFont(ofSize: 20, weight: .bold),
+            .foregroundColor:UIColor.red
+        ])
+        atstring2 = atstring2 + NSAttributedString.image(font: .systemFont(ofSize: 20), image: UIImage.p.cgImage!, contentMode: .scaleAspectFit(0.5))
+        atstring = atstring + NSAttributedString.textBlock(text: atstring2, width: 200, font: .systemFont(ofSize: 20), contentMode: .scaleAspectFit(0.5))
         
         let frame = CocoTextFrame(width: 300, string: atstring)
         
