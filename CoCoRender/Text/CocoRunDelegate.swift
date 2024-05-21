@@ -119,6 +119,9 @@ extension CocoTextRunDelegate {
     public init(font:UIFont,image:CocoPDFImage,contentMode:CocoContentMode) where R == CocoVectorImage{
         self.init(font: font, content: CocoVectorImage(image: image, contentMode: contentMode))
     }
+    public init(font:UIFont,text:CocoTextFrame,contentMode:CocoContentMode) where R == CocoTextBlock{
+        self.init(font: font, width: text.size.width, content: CocoTextBlock(textFrame: text, contentMode: contentMode))
+    }
 }
 
 extension NSAttributedString{
@@ -159,6 +162,21 @@ extension NSAttributedString{
         att?[.font] = font
         let ct = CocoTextRunDelegate(font: font, content: LinearGradient(gradient: image, contentMode: contentMode, startPoint: startPoint, endPoint: endPoint))
         return CocoTextFrame.createRunDelegate(run: ct, attribute: att ?? [.font:font])
+    }
+    
+    public static func textBlock(text:String,
+                                 textColor:UIColor,
+                                 width:CGFloat,
+                                 font:UIFont,
+                                 contentMode:CocoContentMode,
+                                 attribute:[NSAttributedString.Key:Any]? = nil)->NSAttributedString{
+        var att = attribute
+        att?[.font] = font
+        let a = NSAttributedString(string: text, attributes: [
+            .font:font,.foregroundColor:textColor
+        ])
+        let cc = CocoTextRunDelegate(font: font, text: CocoTextFrame(width: width, string: a), contentMode: contentMode)
+        return CocoTextFrame.createRunDelegate(run: cc, attribute: att ?? [.font:font])
     }
 }
 

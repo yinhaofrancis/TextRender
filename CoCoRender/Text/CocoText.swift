@@ -254,8 +254,8 @@ extension CocoTextFrame{
         attr[NSAttributedString.Key(kCTRunDelegateAttributeName as String)] = run.runDelegate as Any
         return NSAttributedString(string: String(run.char),attributes:attr)
     }
-    public func render(frame:CGRect,off: CocoOfflineRender) {
-        let layer = off.draw(size: self.size,followCoodinate: off.context.width == 0 ? false : true) { r in
+    public func render(frame:CGRect,render: CocoOfflineRender) {
+        let layer = render.draw(size: self.size,followCoodinate: render.context.width == 0 ? false : true) { r in
         
             self.draw(ctx: r.context)
             for i in self.runDelegateRun{
@@ -264,6 +264,7 @@ extension CocoTextFrame{
         }
         guard let layer else { return }
         let target = CocoOfflineRender.contentModeFrame(itemFrame: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height), containerFrame: frame, mode: self.contentMode)
-        off.context.draw(layer, in: target)
+        render.context.draw(layer, in: target)
     }
 }
+

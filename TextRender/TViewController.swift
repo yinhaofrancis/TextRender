@@ -24,10 +24,12 @@ class TViewController: UIViewController {
             .font:UIFont.systemFont(ofSize: 18, weight: .bold),
             .foregroundColor:UIColor.red
         ])
+        let block = CocoTextBlock(textFrame: CocoTextFrame(width: 1000, string: atstring), contentMode: .center(1))
+        
         atstring = atstring + NSAttributedString.block(font: .systemFont(ofSize: 18), width: 50, color: UIColor.yellow.cgColor) + NSAttributedString.image(font: UIFont.systemFont(ofSize: 18), image: UIImage.k.cgImage!, contentMode: .scaleAspectFit(0.5)) + NSAttributedString.linearGradient(font: .systemFont(ofSize: 18), image: {
             CocoGradient.GradientItem(color: UIColor.red.cgColor, location: 0)
             CocoGradient.GradientItem(color: UIColor.blue.cgColor, location: 1)
-        }, startPoint: CGPoint.zero, endPoint: CGPoint(x: 1, y: 0), contentMode: .center(1))
+        }, startPoint: CGPoint.zero, endPoint: CGPoint(x: 1, y: 0), contentMode: .center(1)) + NSAttributedString.textBlock(text: "ndk", textColor: UIColor.green, width: 30, font: .boldSystemFont(ofSize: 12), contentMode: .center(1))
         
         let frame = CocoTextFrame(width: 300, string: atstring)
         
@@ -36,7 +38,7 @@ class TViewController: UIViewController {
         render.screenCoodinate = true
         let image = render.draw { r in
             let rf = frame.size
-            frame.render(frame: CGRect(origin: .init(x: 50, y: 50), size: rf), off: r)
+            frame.render(frame: CGRect(origin: .init(x: 50, y: 50), size: rf), render: r)
         }
         self.view.layer.contents = image
     }

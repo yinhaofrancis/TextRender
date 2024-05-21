@@ -87,7 +87,7 @@ public class CocoOfflineRender{
     public func draw(size:CGSize,followCoodinate:Bool = false,call:(CocoOfflineRender)->Void)->CGLayer?{
         let realSize = CGSize(width: size.width * CGFloat(self.scale), height: size.height * CGFloat(self.scale))
         let layer = CocoOfflineRender(width: realSize.width, height: realSize.height, scale: self.scale, context: self.context, layer: CGLayer(self.context, size: realSize, auxiliaryInfo: nil))
-        if(followCoodinate){
+        if(followCoodinate && self.context.width != 0){
             layer.screenCoodinate = self.screenCoodinate
         }
         layer.context.scaleBy(x: CGFloat(self.scale), y: CGFloat(self.scale))

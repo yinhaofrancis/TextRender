@@ -27,6 +27,7 @@
 		00A006A02BF6F77B008C701C /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009275092BF4CC510095B34C /* Resource.swift */; };
 		00A4B4D02BFC3CCF000F75A3 /* CocoRendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A4B4CF2BFC3CCF000F75A3 /* CocoRendable.swift */; };
 		00A4B4D22BFC3E4F000F75A3 /* CocoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A4B4D12BFC3E4F000F75A3 /* CocoImage.swift */; };
+		00A4B4D62BFC634F000F75A3 /* CocoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A4B4D52BFC634F000F75A3 /* CocoView.swift */; };
 		00A87CB42BFB63AA00EB9FFB /* CoCoRender.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A87CAE2BFB63AA00EB9FFB /* CoCoRender.framework */; };
 		00A87CB52BFB63AA00EB9FFB /* CoCoRender.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00A87CAE2BFB63AA00EB9FFB /* CoCoRender.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00A87CBA2BFB63CD00EB9FFB /* CocoOfflineRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A87CB92BFB63CD00EB9FFB /* CocoOfflineRender.swift */; };
@@ -96,6 +97,7 @@
 		00A006892BF6F722008C701C /* TRender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TRender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00A4B4CF2BFC3CCF000F75A3 /* CocoRendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocoRendable.swift; sourceTree = "<group>"; };
 		00A4B4D12BFC3E4F000F75A3 /* CocoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocoImage.swift; sourceTree = "<group>"; };
+		00A4B4D52BFC634F000F75A3 /* CocoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocoView.swift; sourceTree = "<group>"; };
 		00A87CAE2BFB63AA00EB9FFB /* CoCoRender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoCoRender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00A87CB92BFB63CD00EB9FFB /* CocoOfflineRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocoOfflineRender.swift; sourceTree = "<group>"; };
 		00A87CBC2BFB641C00EB9FFB /* CocoText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocoText.swift; sourceTree = "<group>"; };
@@ -188,9 +190,18 @@
 			path = TRender;
 			sourceTree = "<group>";
 		};
+		00A4B4D42BFC6340000F75A3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				00A4B4D52BFC634F000F75A3 /* CocoView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		00A87CAF2BFB63AA00EB9FFB /* CoCoRender */ = {
 			isa = PBXGroup;
 			children = (
+				00A4B4D42BFC6340000F75A3 /* View */,
 				00A87CBB2BFB63FB00EB9FFB /* Text */,
 				00A87CB92BFB63CD00EB9FFB /* CocoOfflineRender.swift */,
 				00A4B4CF2BFC3CCF000F75A3 /* CocoRendable.swift */,
@@ -433,6 +444,7 @@
 			files = (
 				00A87CBF2BFB646000EB9FFB /* CocoRunDelegate.swift in Sources */,
 				00A87CBD2BFB641C00EB9FFB /* CocoText.swift in Sources */,
+				00A4B4D62BFC634F000F75A3 /* CocoView.swift in Sources */,
 				00A4B4D02BFC3CCF000F75A3 /* CocoRendable.swift in Sources */,
 				00A4B4D22BFC3E4F000F75A3 /* CocoImage.swift in Sources */,
 				00A87CBA2BFB63CD00EB9FFB /* CocoOfflineRender.swift in Sources */,

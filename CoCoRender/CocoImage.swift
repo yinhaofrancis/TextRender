@@ -175,3 +175,22 @@ public struct LinearGradient:CocoContent{
         self.endPoint = endPoint
     }
 }
+
+public struct CocoTextBlock:CocoContent{
+    
+    public var textFrame:CocoTextFrame
+    
+    public var contentMode: CocoContentMode
+    
+    public func render(frame: CGRect, render: CocoOfflineRender) {
+        
+        let x = CocoOfflineRender.contentModeFrame(itemFrame: CGRect(origin: .zero, size: textFrame.size), containerFrame: frame, mode: contentMode)
+        textFrame.render(frame: x, render: render)
+    }
+    
+    public init(textFrame: CocoTextFrame, contentMode: CocoContentMode) {
+        self.textFrame = textFrame
+        self.contentMode = contentMode
+    }
+    
+}
