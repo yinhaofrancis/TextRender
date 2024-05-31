@@ -28,6 +28,9 @@ float juliaSet(vec2 z,vec2 c){
 vec2 ramdom(vec2 z){
     return fract(sin(z * 2352.244) * 233.74);
 }
+
+
+
 void mainImage( out vec4 fragColor, in vec2 fragCoord ){
 
     vec2 uv = fragCoord.xy - iResolution.xy * 0.5;

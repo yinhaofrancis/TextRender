@@ -53,8 +53,36 @@ float sdWorld(vec2 p){
     vec2 offset = vec2(x,y);
     return sdCircle(p,noise(p + offset));
 }
-void mainImage(out vec4 fragColor, in vec2 fragCoord ){
+
+#define PI 3.14159265
+vec2 normal_distribution(vec2 uv,vec2 r,vec2 m){
+    vec2 a = 1.0 / (r * sqrt(2. * PI));
+    vec2 expv = (uv - m) * (uv - m) / (2. * r * r) * -1.;
+    return exp(expv) * a;
+}
+float normal_distribution(float uv,float r,float m){
+    float a = 1.0 / (r * sqrt(2. * PI));
+    float expv = (uv - m) * (uv - m) / (2. * r * r) * -1.;
+    return exp(expv) * a;
+}
+#iChannel0 "file://6c6515466de37629f9b67a959c6c8ed5.jpeg"
+void radiam_image(out vec4 fragColor, in vec2 fragCoord ){
     vec2 uv = ((fragCoord / iResolution.xy) * 2.0 - 1.0) * (iResolution.xy / min(iResolution.x,iResolution.y));
     float v = 1. - smoothstep(0.,1.,sdWorld(uv));
     fragColor = vec4(v,v,v,v);
+}
+void mainImage(out vec4 fragColor, in vec2 fragCoord ){
+    float radius = 20.;
+    vec4 color;
+    float sump;
+    for(float i = -radius;i < radius * 2.;i+= 1.){
+        for(float j = -radius;j < radius * 2.;j+= 1.){
+            float n = distance(vec2(i,j) + fragCoord,fragCoord);
+            float p = normal_distribution(n,radius,0.);
+            vec2 tuv = (vec2(i,j) + fragCoord) / iResolution.xy;
+            color +=  texture(iChannel0,tuv) * p;
+            sump += p;
+        }
+    }
+    fragColor = color / sump;
 }
