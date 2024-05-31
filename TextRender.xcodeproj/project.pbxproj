@@ -40,6 +40,18 @@
 		00BE5ACD2BEB6057007361C2 /* list.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC72BEB6056007361C2 /* list.pdf */; };
 		00BE5ACE2BEB6057007361C2 /* gift.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 00BE5AC82BEB6056007361C2 /* gift.pdf */; };
 		00C51A5F2BA84CB20024EA3E /* TViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C51A5E2BA84CB20024EA3E /* TViewController.swift */; };
+		00CB44072C081C2B00A0B1E3 /* TorRender.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CB44062C081C2B00A0B1E3 /* TorRender.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		00CB440A2C081C2B00A0B1E3 /* TorRender.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CB44042C081C2B00A0B1E3 /* TorRender.framework */; };
+		00CB440B2C081C2B00A0B1E3 /* TorRender.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00CB44042C081C2B00A0B1E3 /* TorRender.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		00CB440F2C081C3500A0B1E3 /* ShaderRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00DA36042C07401F004A3182 /* ShaderRender.cpp */; };
+		00CB44102C081C8A00A0B1E3 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00DA360F2C07419A004A3182 /* GLKit.framework */; platformFilter = ios; };
+		00CB44112C081C8A00A0B1E3 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00DA360D2C074194004A3182 /* OpenGLES.framework */; platformFilter = ios; };
+		00CB44142C081CDE00A0B1E3 /* Toy.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CB44122C081CDE00A0B1E3 /* Toy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		00CB44152C081CDE00A0B1E3 /* Toy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00CB44132C081CDE00A0B1E3 /* Toy.mm */; };
+		00CB44162C081D1100A0B1E3 /* ShaderCode.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CB43FD2C081A5200A0B1E3 /* ShaderCode.h */; };
+		00CB44172C081D1100A0B1E3 /* ShaderRender.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 00DA36052C07401F004A3182 /* ShaderRender.hpp */; };
+		00CB44192C08405E00A0B1E3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CB44182C08405E00A0B1E3 /* CoreGraphics.framework */; };
+		00CB441B2C08407000A0B1E3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CB441A2C08407000A0B1E3 /* QuartzCore.framework */; };
 		00CBC6542BA02BFB00A67F82 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CBC6532BA02BFB00A67F82 /* AppDelegate.swift */; };
 		00CBC6582BA02BFB00A67F82 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CBC6572BA02BFB00A67F82 /* ViewController.swift */; };
 		00CBC65B2BA02BFB00A67F82 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00CBC6592BA02BFB00A67F82 /* Main.storyboard */; };
@@ -62,6 +74,20 @@
 			remoteGlobalIDString = 00A87CAD2BFB63AA00EB9FFB;
 			remoteInfo = CoCoRender;
 		};
+		00CB44082C081C2B00A0B1E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00CBC6482BA02BFB00A67F82 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00CB44032C081C2B00A0B1E3;
+			remoteInfo = TorRender;
+		};
+		00DA36122C0741C0004A3182 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00CBC6482BA02BFB00A67F82 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00DA35F62C073CE5004A3182;
+			remoteInfo = ShaderRender;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -71,6 +97,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				00CB440B2C081C2B00A0B1E3 /* TorRender.framework in Embed Frameworks */,
 				00A87CB52BFB63AA00EB9FFB /* CoCoRender.framework in Embed Frameworks */,
 				00A006902BF6F722008C701C /* TRender.framework in Embed Frameworks */,
 			);
@@ -110,6 +137,13 @@
 		00BE5AC82BEB6056007361C2 /* gift.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = gift.pdf; sourceTree = "<group>"; };
 		00BE5ACF2BEB666A007361C2 /* TRRuby.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRRuby.swift; sourceTree = "<group>"; };
 		00C51A5E2BA84CB20024EA3E /* TViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TViewController.swift; sourceTree = "<group>"; };
+		00CB43FD2C081A5200A0B1E3 /* ShaderCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderCode.h; sourceTree = "<group>"; };
+		00CB44042C081C2B00A0B1E3 /* TorRender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TorRender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		00CB44062C081C2B00A0B1E3 /* TorRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TorRender.h; sourceTree = "<group>"; };
+		00CB44122C081CDE00A0B1E3 /* Toy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Toy.h; sourceTree = "<group>"; };
+		00CB44132C081CDE00A0B1E3 /* Toy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Toy.mm; sourceTree = "<group>"; };
+		00CB44182C08405E00A0B1E3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		00CB441A2C08407000A0B1E3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		00CBC6502BA02BFB00A67F82 /* TextRender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextRender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00CBC6532BA02BFB00A67F82 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		00CBC6572BA02BFB00A67F82 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +152,10 @@
 		00CBC65F2BA02BFC00A67F82 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		00CBC6612BA02BFC00A67F82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00CBC6672BA02C2200A67F82 /* TRText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRText.swift; sourceTree = "<group>"; };
+		00DA36042C07401F004A3182 /* ShaderRender.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderRender.cpp; sourceTree = "<group>"; };
+		00DA36052C07401F004A3182 /* ShaderRender.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ShaderRender.hpp; sourceTree = "<group>"; };
+		00DA360D2C074194004A3182 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		00DA360F2C07419A004A3182 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,11 +173,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		00CB44012C081C2B00A0B1E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00CB441B2C08407000A0B1E3 /* QuartzCore.framework in Frameworks */,
+				00CB44192C08405E00A0B1E3 /* CoreGraphics.framework in Frameworks */,
+				00CB44102C081C8A00A0B1E3 /* GLKit.framework in Frameworks */,
+				00CB44112C081C8A00A0B1E3 /* OpenGLES.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00CBC64D2BA02BFB00A67F82 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				00A87CB42BFB63AA00EB9FFB /* CoCoRender.framework in Frameworks */,
+				00CB440A2C081C2B00A0B1E3 /* TorRender.framework in Frameworks */,
 				00A0068F2BF6F722008C701C /* TRender.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,13 +269,28 @@
 			path = Text;
 			sourceTree = "<group>";
 		};
+		00CB44052C081C2B00A0B1E3 /* TorRender */ = {
+			isa = PBXGroup;
+			children = (
+				00CB43FD2C081A5200A0B1E3 /* ShaderCode.h */,
+				00DA36042C07401F004A3182 /* ShaderRender.cpp */,
+				00DA36052C07401F004A3182 /* ShaderRender.hpp */,
+				00CB44062C081C2B00A0B1E3 /* TorRender.h */,
+				00CB44122C081CDE00A0B1E3 /* Toy.h */,
+				00CB44132C081CDE00A0B1E3 /* Toy.mm */,
+			);
+			path = TorRender;
+			sourceTree = "<group>";
+		};
 		00CBC6472BA02BFB00A67F82 = {
 			isa = PBXGroup;
 			children = (
 				00CBC6522BA02BFB00A67F82 /* TextRender */,
 				00A0068A2BF6F722008C701C /* TRender */,
 				00A87CAF2BFB63AA00EB9FFB /* CoCoRender */,
+				00CB44052C081C2B00A0B1E3 /* TorRender */,
 				00CBC6512BA02BFB00A67F82 /* Products */,
+				00DA360C2C074194004A3182 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -235,6 +300,7 @@
 				00CBC6502BA02BFB00A67F82 /* TextRender.app */,
 				00A006892BF6F722008C701C /* TRender.framework */,
 				00A87CAE2BFB63AA00EB9FFB /* CoCoRender.framework */,
+				00CB44042C081C2B00A0B1E3 /* TorRender.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -263,6 +329,17 @@
 			path = TextRender;
 			sourceTree = "<group>";
 		};
+		00DA360C2C074194004A3182 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				00CB441A2C08407000A0B1E3 /* QuartzCore.framework */,
+				00CB44182C08405E00A0B1E3 /* CoreGraphics.framework */,
+				00DA360F2C07419A004A3182 /* GLKit.framework */,
+				00DA360D2C074194004A3182 /* OpenGLES.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -277,6 +354,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00CB43FF2C081C2B00A0B1E3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00CB44072C081C2B00A0B1E3 /* TorRender.h in Headers */,
+				00CB44172C081D1100A0B1E3 /* ShaderRender.hpp in Headers */,
+				00CB44142C081CDE00A0B1E3 /* Toy.h in Headers */,
+				00CB44162C081D1100A0B1E3 /* ShaderCode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +407,24 @@
 			productReference = 00A87CAE2BFB63AA00EB9FFB /* CoCoRender.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		00CB44032C081C2B00A0B1E3 /* TorRender */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00CB440C2C081C2B00A0B1E3 /* Build configuration list for PBXNativeTarget "TorRender" */;
+			buildPhases = (
+				00CB43FF2C081C2B00A0B1E3 /* Headers */,
+				00CB44002C081C2B00A0B1E3 /* Sources */,
+				00CB44012C081C2B00A0B1E3 /* Frameworks */,
+				00CB44022C081C2B00A0B1E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TorRender;
+			productName = TorRender;
+			productReference = 00CB44042C081C2B00A0B1E3 /* TorRender.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		00CBC64F2BA02BFB00A67F82 /* TextRender */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00CBC6642BA02BFC00A67F82 /* Build configuration list for PBXNativeTarget "TextRender" */;
@@ -333,6 +439,8 @@
 			dependencies = (
 				00A0068E2BF6F722008C701C /* PBXTargetDependency */,
 				00A87CB32BFB63AA00EB9FFB /* PBXTargetDependency */,
+				00DA36132C0741C0004A3182 /* PBXTargetDependency */,
+				00CB44092C081C2B00A0B1E3 /* PBXTargetDependency */,
 			);
 			name = TextRender;
 			productName = TextRender;
@@ -356,6 +464,9 @@
 						CreatedOnToolsVersion = 15.2;
 						LastSwiftMigration = 1520;
 					};
+					00CB44032C081C2B00A0B1E3 = {
+						CreatedOnToolsVersion = 15.2;
+					};
 					00CBC64F2BA02BFB00A67F82 = {
 						CreatedOnToolsVersion = 15.2;
 					};
@@ -377,6 +488,7 @@
 				00CBC64F2BA02BFB00A67F82 /* TextRender */,
 				00A006882BF6F722008C701C /* TRender */,
 				00A87CAD2BFB63AA00EB9FFB /* CoCoRender */,
+				00CB44032C081C2B00A0B1E3 /* TorRender */,
 			);
 		};
 /* End PBXProject section */
@@ -390,6 +502,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		00A87CAC2BFB63AA00EB9FFB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00CB44022C081C2B00A0B1E3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -451,6 +570,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		00CB44002C081C2B00A0B1E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00CB44152C081CDE00A0B1E3 /* Toy.mm in Sources */,
+				00CB440F2C081C3500A0B1E3 /* ShaderRender.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00CBC64C2BA02BFB00A67F82 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -473,6 +601,15 @@
 			isa = PBXTargetDependency;
 			target = 00A87CAD2BFB63AA00EB9FFB /* CoCoRender */;
 			targetProxy = 00A87CB22BFB63AA00EB9FFB /* PBXContainerItemProxy */;
+		};
+		00CB44092C081C2B00A0B1E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00CB44032C081C2B00A0B1E3 /* TorRender */;
+			targetProxy = 00CB44082C081C2B00A0B1E3 /* PBXContainerItemProxy */;
+		};
+		00DA36132C0741C0004A3182 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			targetProxy = 00DA36122C0741C0004A3182 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -635,6 +772,74 @@
 			};
 			name = Release;
 		};
+		00CB440D2C081C2B00A0B1E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = SM7RU5Q9UY;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lingxi.TorRender;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		00CB440E2C081C2B00A0B1E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = SM7RU5Q9UY;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lingxi.TorRender;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		00CBC6622BA02BFC00A67F82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -680,6 +885,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"\"GLES_SILENCE_DEPRECATION \"",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -738,6 +944,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "\"GLES_SILENCE_DEPRECATION \"";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -765,11 +972,12 @@
 				DEVELOPMENT_TEAM = SM7RU5Q9UY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TextRender/Info.plist;
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = ddd;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -795,11 +1003,12 @@
 				DEVELOPMENT_TEAM = SM7RU5Q9UY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TextRender/Info.plist;
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = ddd;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -831,6 +1040,15 @@
 			buildConfigurations = (
 				00A87CB62BFB63AA00EB9FFB /* Debug */,
 				00A87CB72BFB63AA00EB9FFB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00CB440C2C081C2B00A0B1E3 /* Build configuration list for PBXNativeTarget "TorRender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00CB440D2C081C2B00A0B1E3 /* Debug */,
+				00CB440E2C081C2B00A0B1E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

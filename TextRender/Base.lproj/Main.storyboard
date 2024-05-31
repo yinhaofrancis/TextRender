@@ -9,16 +9,30 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Mmm-->
         <scene sceneID="Hp7-dI-oH6">
             <objects>
-                <viewController id="seN-Ri-GEy" customClass="TViewController" customModule="TextRender" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="9fv-iL-TbJ">
+                <viewController id="seN-Ri-GEy" customClass="mmm" customModule="TextRender" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ww8-O3-BO6">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="yAm-3H-HY0"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="k" translatesAutoresizingMaskIntoConstraints="NO" id="Xzl-Uw-w0k">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ovc-yY-YqH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Ovc-yY-YqH" firstAttribute="bottom" secondItem="Xzl-Uw-w0k" secondAttribute="bottom" id="Cqd-5s-fvU"/>
+                            <constraint firstItem="Xzl-Uw-w0k" firstAttribute="top" secondItem="Ovc-yY-YqH" secondAttribute="top" id="DUi-uc-9MB"/>
+                            <constraint firstItem="Ovc-yY-YqH" firstAttribute="trailing" secondItem="Xzl-Uw-w0k" secondAttribute="trailing" id="atm-Zp-rg7"/>
+                            <constraint firstItem="Xzl-Uw-w0k" firstAttribute="leading" secondItem="Ovc-yY-YqH" secondAttribute="leading" id="kWr-s7-mhD"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="image" destination="Xzl-Uw-w0k" id="QAI-q6-icF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ncj-BP-JCD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -26,6 +40,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="k" width="1498" height="1434"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

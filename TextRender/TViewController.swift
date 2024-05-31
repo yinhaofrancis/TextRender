@@ -8,7 +8,7 @@
 import Accelerate
 import UIKit
 import CoCoRender
-
+import TorRender
 let scale :CGFloat = 2
 class TViewController: UIViewController {
     

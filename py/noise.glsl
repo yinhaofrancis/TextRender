@@ -1,17 +1,3 @@
-////
-////  ViewController.swift
-////  TextRender
-////
-////  Created by FN-540 on 2024/3/12.
-////
-//
-import UIKit
-import GLKit
-import TorRender
-
-class mmm:UIViewController{
-    lazy var layer:CAEAGLLayer = CAEAGLLayer()
-    lazy var render = Toy(shader: """
 uvec2 pcg2d(uvec2 v)
 {
     v = v * 1664525u + 1013904223u;
@@ -33,10 +19,10 @@ vec2 pcg2d_f(vec2 v)
     return (1.0/float(0xffffffffu)) * vec2(pcg2d( uvec2(floatBitsToUint(v.x), floatBitsToUint(v.y)) ));
 }
 float random(vec2 uv){
-    return fract(234.44234* sin(dot(vec2(2313.423123,32.8) , uv)));
+    return fract(23294.44* sin(dot(vec2(232.423,32.8) , pcg2d_f(uv))));
 }
 float noise (in vec2 st) {
-    st = st * 0.9;
+    st = st * 1.0;
     vec2 i = floor(st);
     vec2 f = fract(st);
 
@@ -71,22 +57,4 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord ){
     vec2 uv = ((fragCoord / iResolution.xy) * 2.0 - 1.0) * (iResolution.xy / min(iResolution.x,iResolution.y));
     float v = 1. - smoothstep(0.,1.,sdWorld(uv));
     fragColor = vec4(v,v,v,v);
-}
-""", textureCode: ["uniform texture2d iChannel0"])
-    
-    @IBOutlet var image:UIImageView!
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.image.layer.mask = layer
-        layer.contentsScale = 0.5;
-        layer.frame = self.image.bounds
-        layer.isOpaque = false;
-        self.render.layer = self.layer
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.window?.backgroundColor = .white
-    }
 }
