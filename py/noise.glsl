@@ -72,11 +72,12 @@ void radiam_image(out vec4 fragColor, in vec2 fragCoord ){
     fragColor = vec4(v,v,v,v);
 }
 void mainImage(out vec4 fragColor, in vec2 fragCoord ){
-    float radius = 20.;
+    float radius = 6.;
+    float step = 1.;
     vec4 color;
     float sump;
-    for(float i = -radius;i < radius * 2.;i+= 1.){
-        for(float j = -radius;j < radius * 2.;j+= 1.){
+    for(float i = -radius;i < radius * 2.;i+= step){
+        for(float j = -radius;j < radius * 2.;j+= step){
             float n = distance(vec2(i,j) + fragCoord,fragCoord);
             float p = normal_distribution(n,radius,0.);
             vec2 tuv = (vec2(i,j) + fragCoord) / iResolution.xy;
