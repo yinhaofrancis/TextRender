@@ -85,7 +85,7 @@ float sdEgg( in vec2 p, in float ra, in float rb )
 
 float sda(vec2 uv){
     
-    return 0.1 * sin(iTime) * sin(uv.x * 3. + (30. * sin(0.1 * iTime))) + uv.y;
+    return 0.1 * sin(0.8*iTime) * sin(uv.x * 3. + (30. * sin(0.1 * iTime))) + uv.y;
 }
 
 
