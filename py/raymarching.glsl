@@ -45,12 +45,12 @@ float opXor(float d1, float d2 )
 }
 
 vec3 createRayDirection(vec2 fragCoord,float length,vec3 up,vec3 location,vec3 target){
-    vec3 z = normalize(location - target);
+    vec3 z = normalize(target - location);
     vec3 x = normalize(cross(up,z));
     vec3 y = normalize(cross(z,x));
     mat3 m = mat3(x,y,z);
      vec2 vp = iResolution.xy / min(iResolution.x,iResolution.y);
-    return m * normalize(vec3(((fragCoord / iResolution.xy) * 2.0 - 1.0)* vp,-length));
+    return m * normalize(vec3(((fragCoord / iResolution.xy) * 2.0 - 1.0)* vp,length));
 }
 
 
